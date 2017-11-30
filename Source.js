@@ -76,10 +76,6 @@ class PowerGrid extends Source{
 
     calculatePower(period){
 
-        let periodInHour = this.toHour(period);
-        let valueOfEnergy = Source.SOURCES.reduce((totalSum, currentElement) => totalSum + currentElement.calculatePowerOutput(periodInHour), 0).toFixed(2);
-        let valueOfConsumption = Consumer.CONSUMERS.reduce((totalSum, currentElement) => totalSum + currentElement.calculateConsumption(periodInHour), 0).toFixed(2);
-
         if ( valueOfEnergy > valueOfConsumption ){
             this.importPower = 0;
             this.exportPower = valueOfEnergy - valueOfConsumption;
@@ -89,6 +85,33 @@ class PowerGrid extends Source{
 Количество потребленной энергии (КВт): ${valueOfConsumption}
 Энергия на экспорт (КВт): ${this.exportPower}
 Энергия на импорт (КВт): ${this.importPower}`
+    }
+
+    calculateVolumeOfProduction(period){
+
+        let periodInHour = this.toHour(period);
+
+        return Source.SOURCES.reduce((totalSum, currentElement) => totalSum + currentElement.calculatePowerOutput(periodInHour), 0).toFixed(2);
+
+    }
+    calculateIncome(period){
+
+        let periodInHour = this.toHour(period);
+        let valueOfEnergy = Source.SOURCES.reduce((totalSum, currentElement) => totalSum + currentElement.calculatePowerOutput(periodInHour), 0).toFixed(2);
+
+        return valueOfEnergy * this.priceMegawatt;
+    }
+
+    calculateCosts(period){
+
+        let periodInHour = this.toHour(period);
+        let valueOfConsumption = Consumer.CONSUMERS.reduce((totalSum, currentElement) => totalSum + currentElement.calculateConsumption(periodInHour), 0).toFixed(2);
+
+        return valueOfConsumption * this.priceMegawatt;
+    }
+
+    isProfitable(period){
+        return !!(this.calculateIncome(period) - this.calculateCosts(period));
     }
 }
 
@@ -246,3 +269,5 @@ console.log(`${powerPlant1.toString()}`);
 // console.log(`${powerPlant1.calculatePowerOutput(period).toFixed(2)}`);
 
 let powerGrid1 = new PowerGrid('pg1', 220, 0.1188);
+
+console.log(`${powerGrid1.calculatePower(period)}`);
