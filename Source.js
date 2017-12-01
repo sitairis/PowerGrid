@@ -21,97 +21,46 @@ class Source {
         this._name = name;
     }
 
-    toHour(days) {
-        return days * 24;
-    }
+
 
     toString(){
         return `Название: ${this.name}
 Мощность (КВт*ч): ${this.power}`;
     }
-    calculatePowerOutput(hours) {
+
+    calculateVolumeOfProduction(hours) {
         return this.power * hours;
     }
+
+
 }
 
-Source.SOURCES = [];
-
-class PowerGrid extends Source{
+class PowerLine extends Source{
 
     constructor(name, power, price){
         super(name, power);
-        this._importPower = 0;
-        this._exportPower = 0;
-        this._priceMegawatt = price;//KVt*h
-    }
-
-    get priceMegawatt() {
-        return this._priceMegawatt;
-    }
-
-    set priceMegawatt(value) {
-        this._priceMegawatt = value;
-    }
-
-    get importPower() {
-        return this._importPower;
-    }
-
-    set importPower(value) {
-        this._importPower = value;
-    }
-
-    get exportPower() {
-        return this._exportPower;
-    }
-
-    set exportPower(value) {
-        this._exportPower = value;
+        this._priceKVt = price;//KVt*h
     }
 
     toString(){
         return `${super.toString()}
-Цена (руб за 1 КВт*ч): ${this.priceMegawatt}`;
+Цена (руб за 1 КВт*ч): ${this.priceKVt}`;
     }
 
-    calculatePower(period){
-
-        if ( valueOfEnergy > valueOfConsumption ){
-            this.importPower = 0;
-            this.exportPower = valueOfEnergy - valueOfConsumption;
-        }
-
-        return `Количество произведенной энергии (КВт): ${valueOfEnergy}
-Количество потребленной энергии (КВт): ${valueOfConsumption}
-Энергия на экспорт (КВт): ${this.exportPower}
-Энергия на импорт (КВт): ${this.importPower}`
+    calculateVolumeOfProduction(hours) {
+        return super.calculateVolumeOfProduction(hours);
     }
 
-    calculateVolumeOfProduction(period){
-
-        let periodInHour = this.toHour(period);
-
-        return Source.SOURCES.reduce((totalSum, currentElement) => totalSum + currentElement.calculatePowerOutput(periodInHour), 0).toFixed(2);
-
-    }
-    calculateIncome(period){
-
-        let periodInHour = this.toHour(period);
-        let valueOfEnergy = Source.SOURCES.reduce((totalSum, currentElement) => totalSum + currentElement.calculatePowerOutput(periodInHour), 0).toFixed(2);
-
-        return valueOfEnergy * this.priceMegawatt;
+    calculatePriceOfTransport(hours){
+        return super.calculateVolumeOfProduction(hours) * this.priceKVt;
     }
 
-    calculateCosts(period){
-
-        let periodInHour = this.toHour(period);
-        let valueOfConsumption = Consumer.CONSUMERS.reduce((totalSum, currentElement) => totalSum + currentElement.calculateConsumption(periodInHour), 0).toFixed(2);
-
-        return valueOfConsumption * this.priceMegawatt;
+    get priceKVt() {
+        return this._priceKVt;
     }
 
-    isProfitable(period){
-        return !!(this.calculateIncome(period) - this.calculateCosts(period));
+    set priceKVt(value) {
+        this._priceKVt = value;
     }
 }
 
@@ -122,18 +71,20 @@ class PowerPlant extends Source{
         this._type = type;
     }
 
-    get type() {
-        return this._type;
-    }
-
     toString(){
         return `${super.toString()}
 Тип электростации: ${this.type}`;
     }
-    calculatePowerOutput(period){
-        let periodInHours = this.toHour(period);
-        return super.calculatePowerOutput(periodInHours);
+
+    calculateVolumeOfProduction(hours){
+        return super.calculateVolumeOfProduction(hours);
     }
+
+    get type() {
+        return this._type;
+    }
+
+
 }
 
 class SolarPanel extends Source{
@@ -143,6 +94,18 @@ class SolarPanel extends Source{
         this._type = type;
     }
 
+    toString(){
+        return `${super.toString()}
+Тип солнечной панели: ${this.type}`;
+    }
+
+    calculateVolumeOfProduction(hours){
+
+        let workingHours = hours/2;
+
+        return super.calculateVolumeOfProduction(workingHours);
+    }
+
     get type() {
         return this._type;
     }
@@ -150,26 +113,26 @@ class SolarPanel extends Source{
     set type(value) {
         this._type = value;
     }
-
-    toString(){
-        return `${super.toString()}
-Тип солнечной панели: ${this.type}`;
-    }
-
-    calculatePowerOutput(period){
-
-        let periodInHour = this.toHour(period)/2;
-
-        return super.calculatePowerOutput(periodInHour);
-    }
 }
 
 class Consumer{
+
     constructor(address, countOfFlats){
         this._address = address;
         this._countOfFlats = countOfFlats;
         this._volumeOfConsumptionDay = 4;
         this._volumeOfConsumptionNight = 1;
+    }
+
+    toString(){
+        return `Адрес дома : ${this.address}
+Количество квартир : ${this.countOfFlats}
+Потребление днем (КВт): ${this.volumeOfConsumptionDay}
+Потребление ночью (КВт): ${this.volumeOfConsumptionNight}`;
+    }
+
+    calculateVolumeOfConsumption(hours) {
+        return this.countOfFlats * (this.volumeOfConsumptionNight/24 + this.volumeOfConsumptionDay/24) * hours;
     }
 
     get address() {
@@ -203,23 +166,125 @@ class Consumer{
     set volumeOfConsumptionNight(value) {
         this._volumeOfConsumptionNight = value;
     }
+}
 
-    toString(){
-        return `Адрес дома : ${this.address}
-Количество квартир : ${this.countOfFlats}
-Потребление днем (КВт): ${this.volumeOfConsumptionDay}
-Потребление ночью (КВт): ${this.volumeOfConsumptionNight}`;
+class Grid {
+
+    constructor(price, period) {
+        this._marketPrice = price;
+        this._period = toHour(period);
+        this._powerStations = [];
+        this._solarPanels = [];
+        this._powerLines = [];
+        this._consumers = [];
     }
 
-    calculateConsumption(period) {
+    calculatePower() {
 
-        return this.countOfFlats * (this.volumeOfConsumptionNight + this.volumeOfConsumptionDay) * period;
+        let volumeOfConsumption = this.consumers.reduce((totalSum, currentElement) => totalSum + currentElement.calculateVolumeOfConsumption(this.period), 0);
+
+        let produce = this.calculateVolumeOfTotalProduction();
+
+        if (volumeOfConsumption >= produce) {
+            this.importPower = volumeOfConsumption - produce;
+            this.exportPower = 0;
+        } else {
+            this.importPower = 0;
+            this.exportPower = produce - volumeOfConsumption;
+        }
+
+        return `Количество произведенной энергии (КВт): ${produce.toFixed(2)}
+Количество потребленной энергии (КВт): ${volumeOfConsumption}
+Энергия на экспорт (КВт): ${this.exportPower}
+Энергия на импорт (КВт): ${this.importPower}`
+    }
+
+    calculateVolumeOfTotalProduction() {
+
+        let volumePowerStations = this.powerStations.reduce((totalSum, currentElement) => totalSum + currentElement.calculateVolumeOfProduction(this.period), 0);
+        let volumeOfSolarPanels = this.solarPanels.reduce((totalSum, currentElement) => totalSum + currentElement.calculateVolumeOfProduction(this.period), 0);
+
+        return volumePowerStations + volumeOfSolarPanels;
+    }
+
+    calculateIncome() {
+
+        let all = this.calculateVolumeOfTotalProduction();
+
+        return all * this.marketPrice;
+    }
+
+    calculateCosts() {
+
+        let costsTr = this.powerLines.reduce((totalSum, currentElement) => totalSum + currentElement.calculatePriceOfTransport(this.period),0);
+
+        let costsCons = this.consumers.reduce((totalSum, currentElement) => totalSum + currentElement.calculateVolumeOfConsumption(this.period), 0) * this.marketPrice;
+
+        return costsCons + costsTr;
+    }
+
+    isProfitable() {
+        return !!(this.calculateIncome() + this.calculateCosts());
+    }
+
+    getReport() {
+
+        return `Информация о сети:
+${this.calculatePower()}
+Доход : ${this.calculateIncome()}
+Расход : ${this.calculateCosts()}
+Выгодно : ${this.isProfitable()}`
+    }
+
+    get powerLines() {
+        return this._powerLines;
+    }
+
+    set powerLines(value) {
+        this._powerLines.push(value);
+    }
+
+    get period() {
+        return this._period;
+    }
+
+    set period(value) {
+        this._period = toHour(value);
+    }
+
+    get powerStations() {
+        return this._powerStations;
+    }
+
+    set powerStations(value) {
+        this._powerStations.push(value);
+    }
+
+    get solarPanels() {
+        return this._solarPanels;
+    }
+
+    set solarPanels(value) {
+        this._solarPanels.push(value);
+    }
+
+    get consumers() {
+        return this._consumers;
+    }
+
+    set consumers(value) {
+        this._consumers = value;
+    }
+
+    get marketPrice() {
+        return this._marketPrice;
+    }
+
+    set marketPrice(value) {
+        this._marketPrice = value;
     }
 }
 
-Consumer.CONSUMERS = [];
-
-let period = 365;
 
 let address1 = 'Минск, ул.Садовая, д.1';
 let countOfFlatsInHouse1 = 100;
@@ -239,23 +304,11 @@ let house2 = new Consumer( address2, countOfFlatsInHouse2);
 let house3 = new Consumer( address3, countOfFlatsInHouse3);
 let house4 = new Consumer( address4, countOfFlatsInHouse4);
 
-Consumer.CONSUMERS.push(house1);
-Consumer.CONSUMERS.push(house2);
-Consumer.CONSUMERS.push(house3);
-Consumer.CONSUMERS.push(house4);
-console.log(`${house1.toString()}`);
-// console.log(`${house1.calculateConsumption(period)} KВт`);//период в днях
-
 let nameCompany = 'SolarCompany';
 let powerOfSolarPanel = (1000/12).toFixed(2);
 let typeOfSolarPanel = 'spT1-1';
 
 let solarPanelT1 = new SolarPanel(nameCompany, powerOfSolarPanel, typeOfSolarPanel);
-
-Source.SOURCES.push(solarPanelT1);
-
-console.log(`${solarPanelT1.toString()}`);
-// console.log(`${solarPanelT1.calculatePowerOutput(period).toFixed(2)}`);
 
 let nameOfPowerPlant = 'Электростанция 1';
 let powerOfPlant = (90000/24).toFixed(2);
@@ -263,11 +316,17 @@ let typeOfPlant = 'Гидро';
 
 let powerPlant1 = new PowerPlant(nameOfPowerPlant, powerOfPlant, typeOfPlant);
 
-Source.SOURCES.push(powerPlant1);
+let powerGrid1 = new PowerLine('pg1', 220, 0.1188);
 
-console.log(`${powerPlant1.toString()}`);
-// console.log(`${powerPlant1.calculatePowerOutput(period).toFixed(2)}`);
+let grid = new Grid(0.5611, 365);
 
-let powerGrid1 = new PowerGrid('pg1', 220, 0.1188);
+grid.powerLines = powerGrid1;
+grid.consumers = [house1, house2, house3, house4];
+grid.powerStations = powerPlant1;
+grid.solarPanels = solarPanelT1;
 
-console.log(`${powerGrid1.calculatePower(period)}`);
+console.log(`${grid.getReport()}`);
+
+function toHour(days) {
+    return days * 24;
+}
