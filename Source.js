@@ -5,24 +5,6 @@ class Source {
         this._power = power;
     }
 
-    get power() {
-        return this._power;
-    }
-
-    set power(power) {
-        this._power = power;
-    }
-
-    get name() {
-        return this._name;
-    }
-
-    set name(name) {
-        this._name = name;
-    }
-
-
-
     toString(){
         return `Название: ${this.name}
 Мощность (КВт*ч): ${this.power}`;
@@ -32,14 +14,46 @@ class Source {
         return this.power * hours;
     }
 
+    get power() {
+        return this._power;
+    }
 
+    set power(power) {
+        let parspower = Number.parseFloat(power);
+        if(!isNumber(parspower)){
+            throw new Error(`Неправильный ввод`);
+        }
+        this._power = parspower;
+    }
+
+    get name() {
+        return this._name;
+    }
+
+    set name(name) {
+        if(!isString(name)){
+            throw new Error(`Неправильный ввод`);
+        }
+        this._name = name;
+    }
 }
 
 class PowerLine extends Source{
 
     constructor(name, power, price){
-        super(name, power);
-        this._priceKVt = price;//KVt*h
+        let parspower = Number.parseFloat(power);
+        let parsprice = Number.parseFloat(price)
+        if (!name || !parspower){
+            throw new Error(`Неправильный ввод`);
+        }
+        if (!isString(name) || !isNumber(parspower)){
+            throw new Error(`Неправильный ввод`);
+        }
+        super(name, parspower);
+        if (!isNumber(parsprice)){
+            throw new Error(`Неворный ввод`);
+        }
+        this._priceKVt = parsprice;//KVt*h
     }
 
     toString(){
@@ -60,14 +74,28 @@ class PowerLine extends Source{
     }
 
     set priceKVt(value) {
-        this._priceKVt = value;
+        let parsvalue = Number.parseFloat(value);
+        if (!isNumber(parsvalue)){
+            throw new Error(`Неворный ввод`);
+        }
+        this._priceKVt = parsvalue;
     }
 }
 
-class PowerPlant extends Source{
+class PowerStation extends Source{
 
     constructor(name, power, type) {
-        super(name, power);
+        let parspower = Number.parseFloat(power);
+        if (!name || !parspower){
+            throw new Error(`Неправильный ввод`);
+        }
+        if (!isString(name) || !isNumber(parspower)){
+            throw new Error(`Неправильный ввод`);
+        }
+        super(name, parspower);
+        if (!isRightTypeOfPowerStation(type)){
+            throw new Error(`Неправильный ввод`);
+        }
         this._type = type;
     }
 
@@ -84,13 +112,28 @@ class PowerPlant extends Source{
         return this._type;
     }
 
-
+    set type(value) {
+        if (!isString(value)){
+            throw new Error(`Неправильный ввод`);
+        }
+        this._type = value;
+    }
 }
 
 class SolarPanel extends Source{
-//1-5 MVt
+
     constructor(name, power, type){
-        super(name, power);
+        let parspower = Number.parseFloat(power);
+        if (!name || !parspower){
+            throw new Error(`Неправильный ввод`);
+        }
+        if (!isString(name) || !isNumber(parspower)){
+            throw new Error(`Неправильный ввод`);
+        }
+        if(!isString(type)){
+            throw new Error(`Неправильный ввод`);
+        }
+        super(name, parspower);
         this._type = type;
     }
 
@@ -111,6 +154,9 @@ class SolarPanel extends Source{
     }
 
     set type(value) {
+        if (!isString(value)){
+            throw new Error(`Неправильный ввод`);
+        }
         this._type = value;
     }
 }
@@ -118,6 +164,9 @@ class SolarPanel extends Source{
 class Consumer{
 
     constructor(address, countOfFlats){
+        if(!isString(address) || !isRightCountOfFlats(countOfFlats)){
+            throw new Error(`Неправильный ввод`);
+        }
         this._address = address;
         this._countOfFlats = countOfFlats;
         this._volumeOfConsumptionDay = 4;
@@ -140,6 +189,9 @@ class Consumer{
     }
 
     set address(value) {
+        if(!isString(value)){
+            throw new Error(`Неправильный ввод`);
+        }
         this._address = value;
     }
 
@@ -148,6 +200,9 @@ class Consumer{
     }
 
     set countOfFlats(value) {
+        if(!isRightCountOfFlats(value)){
+            throw new Error(`Неправильный ввод`);
+        }
         this._countOfFlats = value;
     }
 
@@ -155,22 +210,25 @@ class Consumer{
         return this._volumeOfConsumptionDay;
     }
 
-    set volumeOfConsumptionDay(value) {
-        this._volumeOfConsumptionDay = value;
-    }
+    // set volumeOfConsumptionDay(value) {
+    //     this._volumeOfConsumptionDay = value;
+    // }
 
     get volumeOfConsumptionNight() {
         return this._volumeOfConsumptionNight;
     }
 
-    set volumeOfConsumptionNight(value) {
-        this._volumeOfConsumptionNight = value;
-    }
+    // set volumeOfConsumptionNight(value) {
+    //     this._volumeOfConsumptionNight = value;
+    // }
 }
 
 class Grid {
 
     constructor(price, period) {
+        if(!isNumber(price) && !isRightPeriod(period)){
+            throw new Error(`Неправильный ввод`);
+        }
         this._marketPrice = price;
         this._period = toHour(period);
         this._powerStations = [];
@@ -312,9 +370,9 @@ let solarPanelT1 = new SolarPanel(nameCompany, powerOfSolarPanel, typeOfSolarPan
 
 let nameOfPowerPlant = 'Электростанция 1';
 let powerOfPlant = (90000/24).toFixed(2);
-let typeOfPlant = 'Гидро';
+let typeOfPlant = 'гидро';
 
-let powerPlant1 = new PowerPlant(nameOfPowerPlant, powerOfPlant, typeOfPlant);
+let powerPlant1 = new PowerStation(nameOfPowerPlant, powerOfPlant, typeOfPlant);
 
 let powerGrid1 = new PowerLine('pg1', 220, 0.1188);
 
@@ -329,4 +387,58 @@ console.log(`${grid.getReport()}`);
 
 function toHour(days) {
     return days * 24;
+}
+
+function isString(value) {
+    if(typeof value === 'string'){
+        return true;
+    }
+
+    return false;
+}
+
+function isNumber(value) {
+    if(typeof value === 'number'){
+        return true;
+    }
+    return false;
+}
+
+function isRightTypeOfPowerStation(value) {
+    let types = ['гидро', 'тепло', 'атомная'];
+
+    if (isString(value) && types.includes(value)){
+        return true;
+    }
+
+    return false;
+}
+
+function isRightPowerOfStation(value){
+    if (isNumber(value) && value >= 1 && value <= 100){
+        return true;
+    }
+    return false;
+
+}
+
+function isRightPowerOfSolarPanel(value){
+    if (isNumber(value) && value >= 1 && value <= 5){
+        return true;
+    }
+    return false;
+}
+
+function isRightCountOfFlats(value){
+    if (isNumber(value) && value >= 1 && value <= 400){
+        return true;
+    }
+    return false;
+}
+
+function isRightPeriod(value) {
+    if(isNumber(value) && value >=30 && value <= 2000){
+        return true;
+    }
+    return false;
 }
