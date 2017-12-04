@@ -47,13 +47,13 @@ class Source {
         return this._power;
     }
 
-    // set power(power) {
-    //     let parspower = Number.parseFloat(power);
-    //     if(!isNumber(parspower)){
-    //         throw new Error(`Неправильный ввод`);
-    //     }
-    //     this._power = parspower;
-    // }
+    set power(power) {
+        if(!isNumber(parspower)){
+            throw new Error(`Неправильный ввод`);
+        }
+        let parspower = Number.parseFloat(power);
+        this._power = parspower;
+    }
 
     get name() {
         return this._name;
@@ -419,9 +419,9 @@ ${this.calculatePower()}
         return this._period;
     }
 
-    // set period(value) {
-    //     this._period = toHour(value);
-    // }
+    set period(value) {
+        this._period = toHour(value);
+    }
 
     get powerStations() {
         return this._powerStations;
@@ -451,9 +451,9 @@ ${this.calculatePower()}
         return this._marketPrice;
     }
 
-    // set marketPrice(value) {
-    //     this._marketPrice = value;
-    // }
+    set marketPrice(value) {
+        this._marketPrice = value;
+    }
 }
 
 
@@ -538,6 +538,7 @@ function isRightTypeOfPowerStation(value) {
 
 /**
  * Проверка на правильность введенной мощности электростанции
+ * Значение мощности должно входить в промежуток [1,100].
  * @param value
  * @returns {boolean}
  */
@@ -546,7 +547,8 @@ function isRightPowerOfStation(value){
 }
 
 /**
- * Проверка на правильность введенной мощности солнечной батареии
+ * Проверка на правильность введенной мощности солнечной батареии.
+ * Значение мощности должно входить в промежуток [1,5].
  * @param value
  * @returns {boolean}
  */
@@ -556,6 +558,7 @@ function isRightPowerOfSolarPanel(value){
 
 /**
  * Проверка на правильность введенного количества квартир в доме
+ * Значение количества квартир в доме должно входить в промежуток [1,400].
  * @param value
  * @returns {boolean}
  */
@@ -565,6 +568,7 @@ function isRightCountOfFlats(value){
 
 /**
  * Проверка на правильность введенного для отчета периода
+ * Значение периода должно входить в промежуток [30,2000].
  * @param value
  * @returns {boolean}
  */
