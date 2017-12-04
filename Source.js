@@ -59,12 +59,12 @@ class Source {
         return this._name;
     }
 
-    // set name(name) {
-    //     if(!isString(name)){
-    //         throw new Error(`Неправильный ввод`);
-    //     }
-    //     this._name = name;
-    // }
+    set name(name) {
+        if(!isString(name)){
+            throw new Error(`Неправильный ввод`);
+        }
+        this._name = name;
+    }
 }
 
 class PowerLine extends Source{
@@ -120,13 +120,13 @@ class PowerLine extends Source{
         return this._priceKVt;
     }
 
-    // set priceKVt(value) {
-    //     let parsvalue = Number.parseFloat(value);
-    //     if (!isNumber(parsvalue)){
-    //         throw new Error(`Неворный ввод`);
-    //     }
-    //     this._priceKVt = parsvalue;
-    // }
+    set priceKVt(value) {
+        let parsvalue = Number.parseFloat(value);
+        if (!isNumber(parsvalue)){
+            throw new Error(`Неворный ввод`);
+        }
+        this._priceKVt = parsvalue;
+    }
 }
 
 class PowerStation extends Source{
@@ -170,12 +170,12 @@ class PowerStation extends Source{
         return this._type;
     }
 
-    // set type(value) {
-    //     if (!isString(value)){
-    //         throw new Error(`Неправильный ввод`);
-    //     }
-    //     this._type = value;
-    // }
+    set type(value) {
+        if (!isString(value)){
+            throw new Error(`Неправильный ввод`);
+        }
+        this._type = value;
+    }
 }
 
 class SolarPanel extends Source{
@@ -274,23 +274,23 @@ class Consumer{
         return this._address;
     }
 
-    // set address(value) {
-    //     if(!isString(value)){
-    //         throw new Error(`Неправильный ввод`);
-    //     }
-    //     this._address = value;
-    // }
+    set address(value) {
+        if(!isString(value)){
+            throw new Error(`Неправильный ввод`);
+        }
+        this._address = value;
+    }
 
     get countOfFlats() {
         return this._countOfFlats;
     }
 
-    // set countOfFlats(value) {
-    //     if(!isRightCountOfFlats(value)){
-    //         throw new Error(`Неправильный ввод`);
-    //     }
-    //     this._countOfFlats = value;
-    // }
+    set countOfFlats(value) {
+        if(!isRightCountOfFlats(value)){
+            throw new Error(`Неправильный ввод`);
+        }
+        this._countOfFlats = value;
+    }
 
     get volumeOfConsumptionDay() {
         return this._volumeOfConsumptionDay;

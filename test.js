@@ -96,42 +96,16 @@ describe("calculateVolumeOfTotalProduction", () => {
 
     let testSolarPanel = new SolarPanel(`testName`, 3, `type1`);
     let testPowerStation = new PowerStation(`testPowerStation`, 50, `гидро`);
-    // let testPowerLine = new PowerLine(`testLine1`, 220, 1.1);
-    // let testConsumer = new Consumer(`testAddress`, 200);
 
     calc.powerStations = testPowerStation;
     calc.solarPanels = testSolarPanel;
-    // calc.consumers = testConsumer;
-    // calc.powerStations = testPowerLine;
+
 
     let expected = (3/2 + 50) * testPeriod * 24;
 
     it(`при подсчете количества производимой энергии солнечной батар. и электростанцией за период ${testPeriod} ожидаемое значение ${expected}`, () => {
             assert.equal(calc.calculateVolumeOfTotalProduction(), expected);
         });
-
-    // it(`при подсчете количества потребляемой энергии  ${testCountOfFlats} квартирами за период ${testPeriod} ожидаемое значение ${expected}`, () => {
-    //     assert.equal(calc.calculateVolumeOfConsumption(testPeriod), expected);
-    // });
-    //
-    // it(`При подсчете с отрицательным значением периода ${(-1) * testPeriod} ожидаем ошибку`, () => {
-    //     assert.typeOf(calc.calculateVolumeOfConsumption(testPeriod * (-1)), 'error', 'calc.calculateVolumeOfConsumption(testPeriod*24 * (-1)) returns an error');
-    // });
-    //
-    // it(`При вводе вместо числа строки в значение периода 'string' ожидаем ошибку`, () => {
-    //     assert.typeOf(calc.calculateVolumeOfConsumption('string'), 'error', `calc.calculateVolumeOfConsumption('string') returns an error`);
-    // });
-    //
-    // let testPeriod1 = 750.2;
-    // let expected1 = testCountOfFlats * 5/24 * Math.round(testPeriod1);
-    //
-    // it(`при подсчете с дробным периодом ${testPeriod1} ожидаемое значение ${expected1}`, () => {
-    //     assert.equal(calc.calculateVolumeOfConsumption(Math.round(testPeriod1)), expected1);
-    // });
-    //
-    // it(`при подсчете с дробным периодом ${testPeriod1} ожидаемое значение ${expected1}`, () => {
-    //     assert.equal(calc.calculateVolumeOfConsumption(Math.round(testPeriod1)), expected1);
-    // });
 });
 
 describe("calculateIncome", () => {
@@ -142,42 +116,15 @@ describe("calculateIncome", () => {
 
     let testSolarPanel = new SolarPanel(`testName`, 3, `type1`);
     let testPowerStation = new PowerStation(`testPowerStation`, 50, `гидро`);
-    // let testPowerLine = new PowerLine(`testLine1`, 220, 1.1);
-    // let testConsumer = new Consumer(`testAddress`, 200);
 
     calc.powerStations = testPowerStation;
     calc.solarPanels = testSolarPanel;
-    // calc.consumers = testConsumer;
-    // calc.powerStations = testPowerLine;
 
     let expected = (3/2 + 50) * testPeriod * 24 * testPrice;
 
     it(`при подсчете дохода от производимой энергии солнечной батареи и электростанции за период ${testPeriod} ожидаемое значение ${expected}`, () => {
         assert.equal(calc.calculateIncome(), expected);
     });
-
-    // it(`при подсчете количества потребляемой энергии  ${testCountOfFlats} квартирами за период ${testPeriod} ожидаемое значение ${expected}`, () => {
-    //     assert.equal(calc.calculateVolumeOfConsumption(testPeriod), expected);
-    // });
-    //
-    // it(`При подсчете с отрицательным значением периода ${(-1) * testPeriod} ожидаем ошибку`, () => {
-    //     assert.typeOf(calc.calculateVolumeOfConsumption(testPeriod * (-1)), 'error', 'calc.calculateVolumeOfConsumption(testPeriod*24 * (-1)) returns an error');
-    // });
-    //
-    // it(`При вводе вместо числа строки в значение периода 'string' ожидаем ошибку`, () => {
-    //     assert.typeOf(calc.calculateVolumeOfConsumption('string'), 'error', `calc.calculateVolumeOfConsumption('string') returns an error`);
-    // });
-    //
-    // let testPeriod1 = 750.2;
-    // let expected1 = testCountOfFlats * 5/24 * Math.round(testPeriod1);
-    //
-    // it(`при подсчете с дробным периодом ${testPeriod1} ожидаемое значение ${expected1}`, () => {
-    //     assert.equal(calc.calculateVolumeOfConsumption(Math.round(testPeriod1)), expected1);
-    // });
-    //
-    // it(`при подсчете с дробным периодом ${testPeriod1} ожидаемое значение ${expected1}`, () => {
-    //     assert.equal(calc.calculateVolumeOfConsumption(Math.round(testPeriod1)), expected1);
-    // });
 });
 
 describe("calculateCosts", () => {
@@ -186,13 +133,11 @@ describe("calculateCosts", () => {
 
     let calc = new Grid(testPrice, testPeriod);
 
-    // let testSolarPanel = new SolarPanel(`testName`, 3, `type1`);
-    // let testPowerStation = new PowerStation(`testPowerStation`, 50, `гидро`);
+
     let testPowerLine = new PowerLine(`testLine1`, 220, 1.1);
     let testConsumer = new Consumer(`testAddress`, 200);
 
-    // calc.powerStations = testPowerStation;
-    // calc.solarPanels = testSolarPanel;
+
     calc.consumers = [testConsumer];
     calc.powerLines = testPowerLine;
 
@@ -201,27 +146,4 @@ describe("calculateCosts", () => {
     it(`при подсчете затрат на транспортировку и потребление энергии за период ${testPeriod} ожидаемое значение ${expected}`, () => {
         assert.equal(calc.calculateCosts(), expected);
     });
-
-    // it(`при подсчете количества потребляемой энергии  ${testCountOfFlats} квартирами за период ${testPeriod} ожидаемое значение ${expected}`, () => {
-    //     assert.equal(calc.calculateVolumeOfConsumption(testPeriod), expected);
-    // });
-    //
-    // it(`При подсчете с отрицательным значением периода ${(-1) * testPeriod} ожидаем ошибку`, () => {
-    //     assert.typeOf(calc.calculateVolumeOfConsumption(testPeriod * (-1)), 'error', 'calc.calculateVolumeOfConsumption(testPeriod*24 * (-1)) returns an error');
-    // });
-    //
-    // it(`При вводе вместо числа строки в значение периода 'string' ожидаем ошибку`, () => {
-    //     assert.typeOf(calc.calculateVolumeOfConsumption('string'), 'error', `calc.calculateVolumeOfConsumption('string') returns an error`);
-    // });
-    //
-    // let testPeriod1 = 750.2;
-    // let expected1 = testCountOfFlats * 5/24 * Math.round(testPeriod1);
-    //
-    // it(`при подсчете с дробным периодом ${testPeriod1} ожидаемое значение ${expected1}`, () => {
-    //     assert.equal(calc.calculateVolumeOfConsumption(Math.round(testPeriod1)), expected1);
-    // });
-    //
-    // it(`при подсчете с дробным периодом ${testPeriod1} ожидаемое значение ${expected1}`, () => {
-    //     assert.equal(calc.calculateVolumeOfConsumption(Math.round(testPeriod1)), expected1);
-    // });
 });
