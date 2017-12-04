@@ -14,9 +14,9 @@ class Source {
         if (power < 0){
            throw new Error(`Мощьность меньше нуля`);
         }
-        let parspower = Number.parseFloat(power);
+        let tmpPower = Number.parseFloat(power);
         this._name = name;
-        this._power = parspower;
+        this._power = tmpPower;
     }
 
     /**
@@ -48,11 +48,11 @@ class Source {
     }
 
     set power(power) {
-        if(!isNumber(parspower)){
+        if(!isNumber(tmpPower)){
             throw new Error(`Неправильный ввод`);
         }
-        let parspower = Number.parseFloat(power);
-        this._power = parspower;
+        let tmpPower = Number.parseFloat(power);
+        this._power = tmpPower;
     }
 
     get name() {
@@ -74,13 +74,14 @@ class PowerLine extends Source{
      * @param power
      * @param price
      */
-    constructor(name, power, price){
+    constructor(name, power, price) {
         super(name, power);
-        let parsprice = Number.parseFloat(price);
-        if (!isNumber(parsprice)){
+
+        if (!isNumber(price)) {
             throw new Error(`Неворный ввод`);
         }
-        this._priceKVt = parsprice;//KVt*h
+        let tmpPrice = Number.parseFloat(price);
+        this._priceKVt = tmpPrice;//KVt*h
     }
 
     /**
@@ -121,11 +122,11 @@ class PowerLine extends Source{
     }
 
     set priceKVt(value) {
-        let parsvalue = Number.parseFloat(value);
-        if (!isNumber(parsvalue)){
+        if (!isNumber(value)){
             throw new Error(`Неворный ввод`);
         }
-        this._priceKVt = parsvalue;
+        let tmpPower = Number.parseFloat(value);
+        this._priceKVt = tmpPower;
     }
 }
 
@@ -210,7 +211,6 @@ class SolarPanel extends Source{
      */
     calculateVolumeOfProduction(hours){
         let workingHours = hours/2;
-
         return super.calculateVolumeOfProduction(workingHours);
     }
 
@@ -220,7 +220,7 @@ class SolarPanel extends Source{
 
     set type(value) {
         if (!isString(value)){
-            throw new Error(`Неправильный ввод`);
+            throw new Error(`Неправильный ввод типа`);
         }
         this._type = value;
     }
@@ -330,7 +330,7 @@ class Grid {
      * данный период времени и подсчет количества энергии на экспорт и импорт
      * @returns {string}
      */
-    calculatePower() {
+    getReportAboutPower() {
 
         let volumeOfConsumption = this.consumers.reduce((totalSum, currentElement) => totalSum + currentElement.calculateVolumeOfConsumption(this.period), 0);
 
@@ -401,7 +401,7 @@ class Grid {
     getReport() {
 
         return `Информация о сети:
-${this.calculatePower()}
+${this.getReportAboutPower()}
 Доход : ${this.calculateIncome()}
 Расход : ${this.calculateCosts()}
 Выгодно : ${this.isProfitable()}`
@@ -575,3 +575,4 @@ function isRightCountOfFlats(value){
 function isRightPeriod(value) {
     return isNumber(value) && value >=30 && value <= 2000;
 }
+
