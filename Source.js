@@ -1,5 +1,9 @@
 class Source {
-
+    /**
+     * Конструктор
+     * @param name
+     * @param power
+     */
     constructor(name, power,) {
         if (!name || !power){
             throw new Error(`Неправильный ввод`);
@@ -15,11 +19,20 @@ class Source {
         this._power = parspower;
     }
 
+    /**
+     * Переопределенный toString
+     * @returns {string}
+     */
     toString(){
         return `Название: ${this.name}
 Мощность (КВт*ч): ${this.power}`;
     }
 
+    /**
+     * Подсчет производимой мощности
+     * @param hours
+     * @returns {number}
+     */
     calculateVolumeOfProduction(hours) {
         if(!isRightPeriod(hours)){
             throw new Error(`Неверно введен период`);
@@ -55,7 +68,12 @@ class Source {
 }
 
 class PowerLine extends Source{
-
+    /**
+     * Конструктор
+     * @param name
+     * @param power
+     * @param price
+     */
     constructor(name, power, price){
         super(name, power);
         let parsprice = Number.parseFloat(price);
@@ -65,15 +83,29 @@ class PowerLine extends Source{
         this._priceKVt = parsprice;//KVt*h
     }
 
+    /**
+     * Переопределенный toString
+     * @returns {string}
+     */
     toString(){
         return `${super.toString()}
 Цена (руб за 1 КВт*ч): ${this.priceKVt}`;
     }
 
+    /**
+     * Подсчет мощности ЛЭП
+     * @param hours
+     * @returns {number}
+     */
     calculateVolumeOfProduction(hours) {
         return super.calculateVolumeOfProduction(hours);
     }
 
+    /**
+     * Подсчет затрат на передачу энергии по ЛЭП
+     * @param hours
+     * @returns {number}
+     */
     calculatePriceOfTransport(hours){
         if( hours < 0){
             throw new Error(`Период отрицательное число`);
@@ -98,7 +130,12 @@ class PowerLine extends Source{
 }
 
 class PowerStation extends Source{
-
+    /**
+     * Конструктор
+     * @param name
+     * @param power
+     * @param type
+     */
     constructor(name, power, type) {
         if (!isRightPowerOfStation(power)){
             throw new Error(`Неправильный ввод`);
@@ -110,11 +147,21 @@ class PowerStation extends Source{
         this._type = type;
     }
 
+    /**
+     * Переопределенный toString
+     * @returns {string}
+     */
     toString(){
         return `${super.toString()}
 Тип электростации: ${this.type}`;
     }
 
+    /**
+     * Подсчет производимой мощности электростанции за
+     * данный промежуток времени
+     * @param hours
+     * @returns {number}
+     */
     calculateVolumeOfProduction(hours){
         return super.calculateVolumeOfProduction(hours);
     }
@@ -132,7 +179,12 @@ class PowerStation extends Source{
 }
 
 class SolarPanel extends Source{
-
+    /**
+     * Конструктор
+     * @param name
+     * @param power
+     * @param type
+     */
     constructor(name, power, type){
         if (!isRightPowerOfSolarPanel(power)){
             throw new Error(`Неправильный ввод`);
@@ -141,11 +193,21 @@ class SolarPanel extends Source{
         this._type = type;
     }
 
+    /**
+     * Переопределенный toString
+     * @returns {string}
+     */
     toString(){
         return `${super.toString()}
 Тип солнечной панели: ${this.type}`;
     }
 
+    /**
+     * Подсчет производимой мощности солнечной батареей
+     * за данный промежуток времени
+     * @param hours
+     * @returns {number}
+     */
     calculateVolumeOfProduction(hours){
         let workingHours = hours/2;
 
@@ -165,7 +227,11 @@ class SolarPanel extends Source{
 }
 
 class Consumer{
-
+    /**
+     * Конструктор
+     * @param address
+     * @param countOfFlats
+     */
     constructor(address, countOfFlats){
         if(!isString(address) || !isRightCountOfFlats(countOfFlats)){
             throw new Error(`Неправильный ввод`);
@@ -176,6 +242,10 @@ class Consumer{
         this._volumeOfConsumptionNight = 1;
     }
 
+    /**
+     * Переопределенный toString
+     * @returns {string}
+     */
     toString(){
         return `Адрес дома : ${this.address}
 Количество квартир : ${this.countOfFlats}
@@ -183,6 +253,12 @@ class Consumer{
 Потребление ночью (КВт): ${this.volumeOfConsumptionNight}`;
     }
 
+    /**
+     * Подсчет объема потребления дома
+     * за данный промежуток времени
+     * @param hours
+     * @returns {number}
+     */
     calculateVolumeOfConsumption(hours) {
         if(!isRightPeriod(hours)){
             throw new Error(`Неверно введен период`);
@@ -229,7 +305,11 @@ class Consumer{
 }
 
 class Grid {
-
+    /**
+     * Конструктор
+     * @param price
+     * @param period
+     */
     constructor(price, period) {
         if(!isNumber(price) && !isRightPeriod(period)){
             throw new Error(`Неправильный ввод`);
@@ -245,6 +325,11 @@ class Grid {
         this._consumers = [];
     }
 
+    /**
+     * Подсчет общей мощности производимой и затраченной энергии за
+     * данный период времени и подсчет количества энергии на экспорт и импорт
+     * @returns {string}
+     */
     calculatePower() {
 
         let volumeOfConsumption = this.consumers.reduce((totalSum, currentElement) => totalSum + currentElement.calculateVolumeOfConsumption(this.period), 0);
@@ -265,6 +350,10 @@ class Grid {
 Энергия на импорт (КВт): ${this.importPower}`
     }
 
+    /**
+     * Подсчет общего количества произведенной энергии
+     * @returns {*}
+     */
     calculateVolumeOfTotalProduction() {
 
         let volumePowerStations = this.powerStations.reduce((totalSum, currentElement) => totalSum + currentElement.calculateVolumeOfProduction(this.period), 0);
@@ -273,6 +362,10 @@ class Grid {
         return volumePowerStations + volumeOfSolarPanels;
     }
 
+    /**
+     * Подсчет дохода от произведенной энергии
+     * @returns {number}
+     */
     calculateIncome() {
 
         let all = this.calculateVolumeOfTotalProduction();
@@ -280,6 +373,10 @@ class Grid {
         return all * this.marketPrice;
     }
 
+    /**
+     * Подсчет затрат энергии на транспортировку и потребление
+     * @returns {*}
+     */
     calculateCosts() {
 
         let costsTr = this.powerLines.reduce((totalSum, currentElement) => totalSum + currentElement.calculatePriceOfTransport(this.period),0);
@@ -289,10 +386,18 @@ class Grid {
         return costsCons + costsTr;
     }
 
+    /**
+     * Есть ли доход за данный период времени
+     * @returns {boolean}
+     */
     isProfitable() {
         return !!(this.calculateIncome() + this.calculateCosts());
     }
 
+    /**
+     * Отчет о состоянии сети
+     * @returns {string}
+     */
     getReport() {
 
         return `Информация о сети:
@@ -393,37 +498,76 @@ grid.solarPanels = solarPanelT1;
 
 console.log(`${grid.getReport()}`);
 
+/**
+ * Перевод дней в часы
+ * @param days
+ * @returns {number}
+ */
 function toHour(days) {
     return days * 24;
 }
 
+/**
+ * Проверка на String
+ * @param value
+ * @returns {boolean}
+ */
 function isString(value) {
     return typeof value === 'string';
 }
 
+/**
+ * Проверка на Number
+ * @param value
+ * @returns {boolean}
+ */
 function isNumber(value) {
     return typeof value === 'number';
 }
 
+/**
+ * Проверка на правильность введенного типа электростанции
+ * @param value
+ * @returns {boolean}
+ */
 function isRightTypeOfPowerStation(value) {
     let types = ['гидро', 'тепло', 'атомная'];
 
     return isString(value) && types.includes(value);
 }
 
+/**
+ * Проверка на правильность введенной мощности электростанции
+ * @param value
+ * @returns {boolean}
+ */
 function isRightPowerOfStation(value){
     return isNumber(value) && value >= 1 && value <= 100;
 }
 
+/**
+ * Проверка на правильность введенной мощности солнечной батареии
+ * @param value
+ * @returns {boolean}
+ */
 function isRightPowerOfSolarPanel(value){
     return isNumber(value) && value >= 1 && value <= 5;
-
 }
 
+/**
+ * Проверка на правильность введенного количества квартир в доме
+ * @param value
+ * @returns {boolean}
+ */
 function isRightCountOfFlats(value){
     return isNumber(value) && value >= 1 && value <= 400;
 }
 
+/**
+ * Проверка на правильность введенного для отчета периода
+ * @param value
+ * @returns {boolean}
+ */
 function isRightPeriod(value) {
     return isNumber(value) && value >=30 && value <= 2000;
 }
