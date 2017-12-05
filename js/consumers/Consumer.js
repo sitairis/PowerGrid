@@ -1,5 +1,3 @@
-import {isRightCountOfFlats, isRightPeriod, isString} from "../utils";
-
 export default class Consumer{
     /**
      * Конструктор
