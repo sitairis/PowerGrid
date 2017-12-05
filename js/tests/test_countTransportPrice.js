@@ -32,13 +32,13 @@ describe("countTransportPrice", () => {
             testPeriod: -900,
             testPowerLine: 10,
             testLinePrice: 10.21,
-            message: `при подсчете с периодом ${this.testPeriod} ожидаемое ошибка`
+            message: `при подсчете с периодом ${this.testPeriod} ожидается ошибка`
         },
         {
             testPeriod: 'string',
             testPowerLine:70,
             testLinePrice: 11.8,
-            message: `при подсчете с периодом ${this.testPeriod} ожидаемое ошибка`
+            message: `при подсчете с периодом ${this.testPeriod} ожидается ошибка`
         }
     ];
 

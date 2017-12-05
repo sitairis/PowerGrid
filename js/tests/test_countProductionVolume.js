@@ -21,7 +21,7 @@ describe("countProductionVolume", () => {
 
         let expected = param.testPower * Math.round(param.testPeriod);
 
-        it(`при подсчете с периодом ${param.testPeriod} ожидаемое значение ${expected}`, () => {
+        it(`${param.message} ${expected}`, () => {
             assert.equal(calc.countProductionVolume(param.testPeriod), expected);
         });
     });
@@ -30,12 +30,12 @@ describe("countProductionVolume", () => {
         {
             testPower: 'string',
             testPeriod: 900,
-            message: `при подсчете с периодом ${this.testPeriod} ожидаемое ошибку`
+            message: `при подсчете с периодом ${this.testPeriod} ожидается ошибку`
         },
         {
             testPeriod: -360,
             testPower: 55,
-            message: `при подсчете с периодом ${this.testPeriod} ожидаемое ошибку`
+            message: `при подсчете с периодом ${this.testPeriod} ожидается ошибку`
         }
     ];
 

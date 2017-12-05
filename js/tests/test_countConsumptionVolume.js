@@ -4,23 +4,13 @@ describe("countConsumptionVolume", () => {
 
     let equalParams = [
         {
-            testPrice: 100,
             testPeriod: 900,
-            testPowerStation: 55,
-            testPowerPanel: 3,
             testCountFlats: 350,
-            testPowerLine: 10,
-            testLinePrice: 10.21,
             message: `при подсчете с дробным периодом ${this.testPeriod} ожидаемое значение `
         },
         {
-            testPrice: 35,
             testPeriod: 360.7,
-            testPowerStation: 35,
-            testPowerPanel: 2,
             testCountFlats: 400,
-            testPowerLine: 70,
-            testLinePrice: 11.8,
             message: `при подсчете с дробным периодом ${this.testPeriod} ожидаемое значение `
         }
     ];
@@ -40,12 +30,12 @@ describe("countConsumptionVolume", () => {
         {
             testPeriod: 'string',
             testCountFlats: 350,
-            message: ``
+            message: `при подсчете с периодом ${this.testPeriod} ожидается ошибка`
         },
         {
             testPeriod: -900,
             testCountFlats: 400,
-            message: ``
+            message: `при подсчете с периодом ${this.testPeriod} ожидается ошибка`
         }
     ];
 
