@@ -1,6 +1,6 @@
 
 import Source from "./Source";
-import {isRightPowerOfSolarPanel, isString} from "../../utils";
+import {isRightPowerOfSolarPanel, isString} from "../utils";
 
 export default class SolarPanel extends Source{
     /**

@@ -1,17 +1,17 @@
-import {isRightCountOfFlats, isRightPeriod, isString} from "../../utils";
+import {isRightCountOfFlats, isRightPeriod, isString} from "../utils";
 
 export default class Consumer{
     /**
      * Конструктор
      * @param address
-     * @param countOfFlats
+     * @param countFlats
      */
-    constructor(address, countOfFlats) {
-        if(!isString(address) || !isRightCountOfFlats(countOfFlats)){
-            throw new Error(`Неправильный ввод`);
-        }
+    constructor(address, countFlats) {
+        checkAddress(address);
+        checkCountFlats(countFlats);
+
         this._address = address;
-        this._countOfFlats = countOfFlats;
+        this._countFlats = countFlats;
         this._DAILY_CONSUMPTION = 4;
         this._NIGHT_CONSUMPTION = 1;
     }
@@ -27,6 +27,10 @@ export default class Consumer{
 Потребление ночью (КВт): ${this.NIGHT_CONSUMPTION}`;
     }
 
+    print(){
+        console.log(`${this.toString()}`);
+    }
+
     /**
      * Подсчет объема потребления дома
      * за данный промежуток времени
@@ -34,44 +38,39 @@ export default class Consumer{
      * @returns {number}
      */
     countConsumptionVolume(hours) {
-        if(!isRightPeriod(hours)){
-            throw new Error(`Неверно введен период`);
-        }
-        if( hours < 0){
-            throw new Error(`Период отрицательное число`);
-        }
+        checkPeriod(hours);
 
         return this.countOfFlats * (this.DAILY_CONSUMPTION/24 + this.NIGHT_CONSUMPTION/24) * hours;
     }
 
     get address() {
+        checkAddress(this._address);
         return this._address;
     }
 
     set address(value) {
-        if(!isString(value)){
-            throw new Error(`Неправильный ввод`);
-        }
+        checkAddress(value);
         this._address = value;
     }
 
     get countOfFlats() {
-        return this._countOfFlats;
+        checkCountFlats(this._countFlats);
+        return this._countFlats;
     }
 
     set countOfFlats(value) {
-        if(!isRightCountOfFlats(value)){
-            throw new Error(`Неправильный ввод`);
-        }
-        this._countOfFlats = value;
+        checkCountFlats(value);
+        this._countFlats = value;
     }
 
 
     get DAILY_CONSUMPTION() {
+        checkDAILY_CONSUMPTION(this._DAILY_CONSUMPTION);
         return this._DAILY_CONSUMPTION;
     }
 
     get NIGHT_CONSUMPTION() {
+        checkNIGHT_CONSUMPTION(this._NIGHT_CONSUMPTION);
         return this._NIGHT_CONSUMPTION;
     }
 }

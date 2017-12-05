@@ -1,5 +1,5 @@
 import Source from "./Source";
-import {isRightPowerOfStation, isRightTypeOfPowerStation} from "../../utils";
+import {isRightPowerOfStation, isRightTypeOfPowerStation} from "../utils";
 
 export default class PowerStation extends Source{
     /**

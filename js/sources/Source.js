@@ -1,5 +1,5 @@
 
-import {isNumber, isString, isRightPeriod} from "../../utils";
+import {isNumber, isString, isRightPeriod} from "../utils";
 
 export default class Source {
     /**

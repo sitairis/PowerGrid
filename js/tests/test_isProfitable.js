@@ -3,7 +3,7 @@ import PowerStation from "../sources/PowerStation";
 import SolarPanel from "../sources/SolarPanel";
 import Consumer from "../consumers/Consumer";
 import PowerLine from "../sources/PowerLine";
-import Grid from "../../Grid";
+import Grid from "../Grid";
 
 describe("isProfitable", () => {
 

@@ -1,7 +1,7 @@
-import Consumer from "./js/consumers/Consumer";
-import SolarPanel from "./js/sources/SolarPanel";
-import PowerStation from "./js/sources/PowerStation";
-import PowerLine from "./js/sources/PowerLine";
+import Consumer from "./consumers/Consumer";
+import SolarPanel from "./sources/SolarPanel";
+import PowerStation from "./sources/PowerStation";
+import PowerLine from "./sources/PowerLine";
 import Grid from "./Grid";
 
 let address1 = 'Минск, ул.Садовая, д.1';

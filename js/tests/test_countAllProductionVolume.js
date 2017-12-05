@@ -1,4 +1,4 @@
-import Grid from "../../Grid";
+import Grid from "../Grid";
 import SolarPanel from "../sources/SolarPanel";
 import PowerStation from "../sources/PowerStation";
 

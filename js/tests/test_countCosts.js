@@ -1,6 +1,6 @@
 import PowerLine from "../sources/PowerLine";
 import Consumer from "../consumers/Consumer";
-import Grid from "../../Grid";
+import Grid from "../Grid";
 
 describe("countCosts", () => {
 

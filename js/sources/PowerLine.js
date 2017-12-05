@@ -1,6 +1,6 @@
 
 import Source from "./Source";
-import {isRightPeriod, isNumber} from "../../utils";
+import {isRightPeriod, isNumber} from "../utils";
 
 export default class PowerLine extends Source{
     /**
