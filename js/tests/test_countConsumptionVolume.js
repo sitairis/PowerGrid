@@ -2,30 +2,58 @@ import Consumer from "../consumers/Consumer";
 
 describe("countConsumptionVolume", () => {
 
-    let testCountOfFlats = 200, testPeriod = 720;
-    let calc = new Consumer('testAddress', testCountOfFlats);
-    let expected = testCountOfFlats * 5/24 *testPeriod;
+    let equalParams = [
+        {
+            testPrice: 100,
+            testPeriod: 900,
+            testPowerStation: 55,
+            testPowerPanel: 3,
+            testCountFlats: 350,
+            testPowerLine: 10,
+            testLinePrice: 10.21,
+            message: `при подсчете с дробным периодом ${this.testPeriod} ожидаемое значение `
+        },
+        {
+            testPrice: 35,
+            testPeriod: 360.7,
+            testPowerStation: 35,
+            testPowerPanel: 2,
+            testCountFlats: 400,
+            testPowerLine: 70,
+            testLinePrice: 11.8,
+            message: `при подсчете с дробным периодом ${this.testPeriod} ожидаемое значение `
+        }
+    ];
 
-    it(`при подсчете количества потребляемой энергии  ${testCountOfFlats} квартирами за период ${testPeriod} ожидаемое значение ${expected}`, () => {
-        assert.equal(calc.countConsumptionVolume(testPeriod), expected);
+    equalParams.forEach((param) => {
+
+        let calc = new Consumer('testAddress', param.testCountFlats);
+
+        let expected = param.testCountFlats * 5/24 * param.testPeriod;
+
+        it(`${param.message} ${expected}`, () => {
+            assert.equal(calc.countConsumptionVolume(param.testPeriod), expected);
+        });
     });
 
-    it(`При подсчете с отрицательным значением периода ${(-1) * testPeriod} ожидаем ошибку`, () => {
-        assert.typeOf(calc.countConsumptionVolume(testPeriod * (-1)), 'error', 'calc.countConsumptionVolume(testPeriod*24 * (-1)) returns an error');
-    });
+    let typeOfParams = [
+        {
+            testPeriod: 'string',
+            testCountFlats: 350,
+            message: ``
+        },
+        {
+            testPeriod: -900,
+            testCountFlats: 400,
+            message: ``
+        }
+    ];
 
-    it(`При вводе вместо числа строки в значение периода 'string' ожидаем ошибку`, () => {
-        assert.typeOf(calc.countConsumptionVolume('string'), 'error', `calc.calculateVolumeOfConsumption('string') returns an error`);
-    });
+    typeOfParams.forEach((param) => {
+        let calc = new Consumer('testAddress', param.testCountFlats);
 
-    let testPeriod1 = 750.2;
-    let expected1 = testCountOfFlats * 5/24 * Math.round(testPeriod1);
-
-    it(`при подсчете с дробным периодом ${testPeriod1} ожидаемое значение ${expected1}`, () => {
-        assert.equal(calc.countConsumptionVolume(Math.round(testPeriod1)), expected1);
-    });
-
-    it(`при подсчете с дробным периодом ${testPeriod1} ожидаемое значение ${expected1}`, () => {
-        assert.equal(calc.countConsumptionVolume(Math.round(testPeriod1)), expected1);
+        it(`${param.message}`, () => {
+            assert.typeOf(calc.countConsumptionVolume(param.testPeriod), 'error', 'calc.countConsumptionVolume returns an error');
+        });
     });
 });

@@ -4,21 +4,36 @@ import Grid from "../../Grid";
 
 describe("countCosts", () => {
 
-    let testPrice = 200, testPeriod = 72;
+    let params = [
+        {
+            testPrice: 200,
+            testPeriod: 900,
+            testCountFlats: 350,
+            testPowerLine: 10,
+            testLinePrice: 10.21,
+            message: `при подсчете затрат на транспортировку и потребление энергии за период ${this.testPeriod} ожидаемое значение`
+        },
+        {
+            testPrice:35,
+            testPeriod: 36,
+            testCountFlats: 400,
+            testPowerLine:70,
+            testLinePrice: 11.8,
+            message: `при подсчете затрат на транспортировку и потребление энергии за период ${this.testPeriod} ожидаемое значение`
+        }
+    ];
 
-    let calc = new Grid(testPrice, testPeriod);
+    params.forEach((param) => {
 
+        let calc = new Grid(param.testPrice, param.testPeriod);
 
-    let testPowerLine = new PowerLine(`testLine1`, 220, 1.1);
-    let testConsumer = new Consumer(`testAddress`, 200);
+        calc.powerLines = new PowerLine(`testLine1`, param.testPowerLine, param.testLinePrice);
+        calc.consumers = [new Consumer(`testAddress`, param.testCountFlats)];
 
+        let expected = param.testPeriod * (param.testPowerLine * param.testLinePrice +  param.testCountFlats * 5/24 * param.testPrice) ;
 
-    calc.consumers = [testConsumer];
-    calc.powerLines = testPowerLine;
-
-    let expected = testPeriod * 220 * 1.1 * 24 +  testPeriod * 24 * 200 * 5/24 * testPrice ;
-
-    it(`при подсчете затрат на транспортировку и потребление энергии за период ${testPeriod} ожидаемое значение ${expected}`, () => {
-        assert.equal(calc.countCosts(), expected);
+        it(`${param.message} ${expected}`, () => {
+            assert.equal(calc.countCosts(), expected);
+        });
     });
 });

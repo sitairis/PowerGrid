@@ -13,6 +13,15 @@ describe("countAllProductionVolume", () => {
             message:`при подсчете количества производимой энергии солнечной батар. 
             и электростанцией за период ${this.testPeriod} ожидаемое значение`,
             expected: true
+        },
+        {
+            testPrice:180,
+            testPeriod: 36,
+            testPowerStation:35,
+            testPowerPanel:2,
+            message:`при подсчете количества производимой энергии солнечной батар. 
+            и электростанцией за период ${this.testPeriod} ожидаемое значение`,
+            expected: true
         }
     ];
 

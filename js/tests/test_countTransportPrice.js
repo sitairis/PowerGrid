@@ -2,30 +2,52 @@ import PowerLine from "../sources/PowerLine";
 
 describe("countTransportPrice", () => {
 
-    let testPower = 100, testPeriod = 30, testPrice = 1.31;
-    let calc = new PowerLine('testName', testPower, testPrice);
-    let expected = testPower * testPeriod * 24 * testPrice;
+    let equalParams = [
+        {
+            testPeriod: 900,
+            testPowerLine: 10,
+            testLinePrice: 10.21,
+            message: `при подсчете с периодом ${this.testPeriod} ожидаемое значение`
+        },
+        {
+            testPeriod: 36,
+            testPowerLine:70,
+            testLinePrice: 11.8,
+            message: `при подсчете с периодом ${this.testPeriod} ожидаемое значение`
+        }
+    ];
 
-    it(`при подсчете стоимости транспортировки электричества мощьностью ${testPower} за период ${testPeriod} по цене ${testPrice} ожидаемое значение ${expected}`, () => {
-        assert.equal(calc.countTransportPrice(testPeriod * 24), expected);
+    equalParams.forEach((param) => {
+        let calc = new PowerLine('testName', param.testPowerLine, param.testLinePrice);
+
+        let expected = param.testPowerLine * param.testLinePrice * Math.round(param.testPeriod);
+
+        it(`${param.message} ${expected}`, () => {
+            assert.equal(calc.countTransportPrice(param.testPeriod), expected);
+        });
     });
 
-    it(`При подсчете с отрицательным значением периода ${(-1) * testPeriod} ожидаем ошибку`, () => {
-        assert.typeOf(calc.countTransportPrice(testPeriod * 24 * (-1)), 'error', 'calc.countTransportPrice(testPeriod*24 * (-1)) returns an error');
-    });
+    let typeOfParams = [
+        {
+            testPeriod: -900,
+            testPowerLine: 10,
+            testLinePrice: 10.21,
+            message: `при подсчете с периодом ${this.testPeriod} ожидаемое ошибка`
+        },
+        {
+            testPeriod: 'string',
+            testPowerLine:70,
+            testLinePrice: 11.8,
+            message: `при подсчете с периодом ${this.testPeriod} ожидаемое ошибка`
+        }
+    ];
 
-    it(`При вводе вместо числа строки в значение периода 'string' ожидаем ошибку`, () => {
-        assert.typeOf(calc.countTransportPrice('string'), 'error', `calc.calculatePriceOfTransport('string') returns an error`);
-    });
+    typeOfParams.forEach((param) => {
 
-    let testPeriod1 = 75.2;
-    let expected1 = testPower * Math.round(testPeriod1) * 24 * testPrice;
+        let calc = new PowerLine('testName', param.testPowerLine, param.testLinePrice);
 
-    it(`при подсчете с дробным периодом ${testPeriod1} ожидаемое значение ${expected1}`, () => {
-        assert.equal(calc.countTransportPrice(Math.round(testPeriod1) * 24), expected1);
-    });
-
-    it(`при подсчете с дробным периодом ${testPeriod1} ожидаемое значение ${expected1}`, () => {
-        assert.equal(calc.countTransportPrice(Math.round(testPeriod1) * 24), expected1);
+        it(`${param.message}`, () => {
+            assert.typeOf(calc.countTransportPrice(param.testPeriod), 'error', 'calc.countProductionVolume returns an error');
+        });
     });
 });

@@ -7,29 +7,83 @@ import Grid from "../../Grid";
 
 describe("isProfitable", () => {
 
-    let testPrice = 200, testPeriod = 72;
+    let positiveParams = [
+        {
+            testPrice: 200,
+            testPeriod: 45,
+            testPowerStation: 55,
+            testPowerPanel: 3,
+            testCountFlats: 200,
+            testPowerLine: 220,
+            testLinePrice: 1.21,
+            msgTypeOf:`возвращает ли функция boolean`,
+            msgEqual: `при проверке на прибыльность ожидаемое значение true`
+        },
+        {
+            testPrice:180,
+            testPeriod: 36,
+            testPowerStation:35,
+            testPowerPanel:2,
+            testCountFlats: 200,
+            testPowerLine:220,
+            testLinePrice: 1.1,
+            msgTypeOf:`возвращает ли функция boolean`,
+            msgEqual: `при проверке на прибыльность ожидаемое значение true`
+        }
+    ];
 
-    let calc = new Grid(testPrice, testPeriod);
+    positiveParams.forEach((param) => {
+        let calc = new Grid(param.testPrice, param.testPeriod);
 
+        calc.powerStations = new PowerStation(`testPowerStation`, param.testPowerStation, `гидро`);
+        calc.solarPanels = new SolarPanel(`testName`, param.testPowerPanel, `type1`);
+        calc.consumers = [new Consumer(`testAddress`, param.testCountFlats)];
+        calc.powerLines = new PowerLine(`testLine1`, param.testPowerLine, param.testLinePrice);
 
-    calc.powerStations = new PowerStation(`testPowerStation`, 50, `гидро`);
-    calc.solarPanels = new SolarPanel(`testName`, 3, `type1`);
-    calc.consumers = [new Consumer(`testAddress`, 200)];
-    calc.powerLines = new PowerLine(`testLine1`, 220, 1.1);
+        it(`${param.msgTypeOf}`, () => {
+            assert.typeOf(calc.isProfitable(), `boolean`, `Значение boolean`);
+        });
 
-    let costs = testPeriod * 220 * 24 * 1.1 +  testPeriod * 200 * 5/24;
-    let incomes = (3/2 + 50) * testPeriod * 24 * testPrice;
-    let expected = true;
-
-    if (incomes - costs < 0) {
-        expected = false
-    }
-    it(`возвращает ли функция boolean`, () => {
-        assert.typeOf(calc.isProfitable(), `boolean`, `Значение boolean`);
+        it(`${param.msgEqual}`, () => {
+            assert.equal(calc.isProfitable(), true);
+        });
     });
 
-    it(`при проверке на прибыльность при значении доходов ${incomes} и расходов ${costs} ожидаемое значение ${expected}`, () => {
-        assert.equal(calc.isProfitable(), expected);
+    let negativeParams = [
+        {
+            testPrice: 100,
+            testPeriod: 90,
+            testPowerStation: 55,
+            testPowerPanel: 3,
+            testCountFlats: 350,
+            testPowerLine: 10,
+            testLinePrice: 10.21,
+            message: `при проверке на прибыльность ожидаемое значение false`
+        },
+        {
+            testPrice:35,
+            testPeriod: 36,
+            testPowerStation:35,
+            testPowerPanel:2,
+            testCountFlats: 400,
+            testPowerLine:70,
+            testLinePrice: 11.8,
+            msgEqual: `при проверке на прибыльность ожидаемое значение false`
+        }
+    ];
+
+    negativeParams.forEach((param) => {
+
+        let calc = new Grid(param.testPrice, param.testPeriod);
+
+        calc.powerStations = new PowerStation(`testPowerStation`, param.testPowerStation, `гидро`);
+        calc.solarPanels = new SolarPanel(`testName`, param.testPowerPanel, `type1`);
+        calc.consumers = [new Consumer(`testAddress`, param.testCountFlats)];
+        calc.powerLines = new PowerLine(`testLine1`, param.testPowerLine, param.testLinePrice);
+
+        it(`${param.message}`, () => {
+            assert.equal(calc.isProfitable(), false);
+        });
     });
 
 });
