@@ -1,6 +1,7 @@
 
 import Source from "./Source";
 import {isRightPowerOfSolarPanel, isString} from "../utils";
+import {checkPanelType, checkPeriod, checkStationType} from "../exceptions";
 
 export default class SolarPanel extends Source{
     /**
@@ -11,11 +12,7 @@ export default class SolarPanel extends Source{
      */
     constructor(name, power, type) {
         super(name, power);
-
-        if (!isRightPowerOfSolarPanel(power)){
-            throw new Error(`Неправильный ввод`);
-        }
-
+        checkStationType(type);
         this._type = type;
     }
 
@@ -28,6 +25,9 @@ export default class SolarPanel extends Source{
 Тип солнечной панели: ${this.type}`;
     }
 
+    print() {
+        console.log(`${this.toString()}`);
+    }
     /**
      * Подсчет производимой мощности солнечной батареей
      * за данный промежуток времени
@@ -35,18 +35,18 @@ export default class SolarPanel extends Source{
      * @returns {number}
      */
     countProductionVolume(hours) {
+        checkPeriod(hours);
         let workingHours = hours/2;
         return super.countProductionVolume(workingHours);
     }
 
     get type() {
+        checkPanelType(this._type);
         return this._type;
     }
 
     set type(value) {
-        if (!isString(value)){
-            throw new Error(`Неправильный ввод типа`);
-        }
+        checkPanelType(value);
         this._type = value;
     }
 }

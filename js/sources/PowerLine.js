@@ -1,6 +1,6 @@
 
 import Source from "./Source";
-import {isRightPeriod, isNumber} from "../utils";
+import {checkPeriod, checkPrice} from "../exceptions";
 
 export default class PowerLine extends Source{
     /**
@@ -12,9 +12,7 @@ export default class PowerLine extends Source{
     constructor(name, power, price) {
         super(name, power);
 
-        if (!isNumber(price)) {
-            throw new Error(`Неворный ввод`);
-        }
+        checkPrice(price);
 
         this._priceKVt = Number.parseFloat(price);
     }
@@ -23,7 +21,7 @@ export default class PowerLine extends Source{
      * Переопределенный toString
      * @returns {string}
      */
-    toString(){
+    toString() {
         return `${super.toString()}
 Цена (руб за 1 КВт*ч): ${this.priceKVt}`;
     }
@@ -33,24 +31,22 @@ export default class PowerLine extends Source{
      * @param hours
      * @returns {number}
      */
-    countTransportPrice(hours){
-        if( hours < 0){
-            throw new Error(`Период отрицательное число`);
-        }
-        if(!isRightPeriod(hours)){
-            throw new Error(`Неверно введен период`);
-        }
+    countTransportPrice(hours) {
+        checkPeriod(hours);
         return super.countProductionVolume(hours) * this.priceKVt;
     }
 
     get priceKVt() {
+        checkPrice(this._priceKVt);
         return this._priceKVt;
     }
 
     set priceKVt(value) {
-        if (!isNumber(value)){
-            throw new Error(`Неворный ввод`);
-        }
+        checkPrice(value);
         this._priceKVt = Number.parseFloat(value);
+    }
+
+    print(){
+        console.log(`${this.toString()}`);
     }
 }

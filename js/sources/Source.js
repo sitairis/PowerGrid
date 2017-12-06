@@ -1,5 +1,6 @@
 
 import {isNumber, isString, isRightPeriod} from "../utils";
+import {checkNameSource, checkPeriod, checkPower} from "../exceptions";
 
 export default class Source {
     /**
@@ -8,16 +9,8 @@ export default class Source {
      * @param power
      */
     constructor(name, power,) {
-        if (!name || !power){
-            throw new Error(`Неправильный ввод`);
-        }
-        if (!isString(name) || !isNumber(power)){
-            throw new Error(`Неправильный ввод`);
-        }
-        if (power < 0){
-           throw new Error(`Мощьность меньше нуля`);
-        }
-
+        checkPower(power);
+        checkNameSource(name);
         this._name = name;
         this._power = Number.parseFloat(power);
     }
@@ -37,34 +30,27 @@ export default class Source {
      * @returns {number}
      */
     countProductionVolume(hours) {
-        if(!isRightPeriod(hours)){
-            throw new Error(`Неверно введен период`);
-        }
-        if( hours < 0){
-            throw new Error(`Период отрицательное число`);
-        }
+        checkPeriod(hours);
         return this.power * hours;
     }
 
     get power() {
+        checkPower(this._power);
         return this._power;
     }
 
     set power(power) {
-        if(!isNumber(power)){
-            throw new Error(`Неправильный ввод`);
-        }
+        checkPower(power);
         this._power = Number.parseFloat(power);
     }
 
     get name() {
+        checkNameSource(this._name);
         return this._name;
     }
 
     set name(name) {
-        if(!isString(name)){
-            throw new Error(`Неправильный ввод`);
-        }
+        checkNameSource(name);
         this._name = name;
     }
 }

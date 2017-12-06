@@ -1,5 +1,11 @@
 
 import {isRightPeriod, toHour, isNumber} from "./utils";
+import {
+    checkConsumer,
+    checkConsumers,
+    checkPeriod, checkPower, checkPowerLine, checkPowerLines, checkPowerStation, checkPowerStations,
+    checkPrice, checkSolarPanel, checkSolarPanels
+} from "./exceptions";
 
 export default class Grid {
     /**
@@ -8,13 +14,8 @@ export default class Grid {
      * @param period
      */
     constructor(price, period) {
-        if(!isNumber(price) && !isRightPeriod(period)){
-            throw new Error(`Неправильный ввод`);
-        }
-        if( period < 0){
-            throw new Error(`Неверно введен период`);
-        }
-
+        checkPeriod(period);
+        checkPrice(price);
         this._marketPrice = price;
         this._period = toHour(Math.round(period));
         this._powerStations = [];
@@ -100,67 +101,86 @@ ${this.getPowerReport()}
 Выгодно : ${this.isProfitable()}`
     }
 
+    print() {
+        console.log(`${this.getReport()}`);
+    }
     get powerLines() {
+        checkPowerLines(this._powerLines);
         return this._powerLines;
     }
 
     set powerLines(value) {
+        checkPowerLine(value);
         this._powerLines.push(value);
     }
 
     get period() {
+        checkPeriod(this._period);
         return this._period;
     }
 
     set period(value) {
+        checkPeriod(value);
         this._period = toHour(value);
     }
 
     get powerStations() {
+        checkPowerStations(this._powerStations);
         return this._powerStations;
     }
 
     set powerStations(value) {
+        checkPowerStation(value);
         this._powerStations.push(value);
     }
 
     get solarPanels() {
+        checkSolarPanels(this._solarPanels);
         return this._solarPanels;
     }
 
     set solarPanels(value) {
+        checkSolarPanel(value);
         this._solarPanels.push(value);
     }
 
     get consumers() {
+        checkConsumers(this._consumers);
         return this._consumers;
     }
 
     set consumers(value) {
-        this._consumers = value;
+        checkConsumer(value);
+        this._consumers.push(value);
     }
 
     get marketPrice() {
+        checkPrice(this._marketPrice);
         return this._marketPrice;
     }
 
     set marketPrice(value) {
+        checkPrice(value);
         this._marketPrice = value;
     }
 
     get exportPower() {
+        checkPower(this._exportPower);
         return this._exportPower;
     }
 
     set exportPower(value) {
+        checkPower(value);
         this._exportPower = value;
     }
 
     get importPower() {
+        checkPower(this._importPower);
         return this._importPower;
     }
 
     set importPower(value) {
+        checkPower(value);
         this._importPower = value;
     }
 }

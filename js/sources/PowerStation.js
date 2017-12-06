@@ -1,5 +1,6 @@
 import Source from "./Source";
 import {isRightPowerOfStation, isRightTypeOfPowerStation} from "../utils";
+import {checkStationType} from "../exceptions";
 
 export default class PowerStation extends Source{
     /**
@@ -10,14 +11,7 @@ export default class PowerStation extends Source{
      */
     constructor(name, power, type) {
         super(name, power);
-
-        if (!isRightPowerOfStation(power)){
-            throw new Error(`Неправильный ввод`);
-        }
-        if (!isRightTypeOfPowerStation(type)){
-            throw new Error(`Неправильный ввод`);
-        }
-
+        checkStationType(type);
         this._type = type;
     }
 
@@ -30,14 +24,20 @@ export default class PowerStation extends Source{
 Тип электростации: ${this.type}`;
     }
 
+    /**
+     * Вывод информации о электоростанции
+     */
+    print() {
+        console.log(`${this.toString()}`);
+    }
+
     get type() {
+        checkStationType(type);
         return this._type;
     }
 
     set type(value) {
-        if (!isString(value)){
-            throw new Error(`Неправильный ввод`);
-        }
+        checkStationType(type);
         this._type = value;
     }
 }
