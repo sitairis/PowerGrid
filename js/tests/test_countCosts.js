@@ -1,6 +1,6 @@
-import PowerLine from "../sources/PowerLine";
-import Consumer from "../consumers/Consumer";
-import Grid from "../Grid";
+import PowerLine from '../sources/PowerLine.js';
+import Consumer from '../consumers/Consumer.js';
+import Grid from '../Grid.js';
 
 describe("countCosts", () => {
 

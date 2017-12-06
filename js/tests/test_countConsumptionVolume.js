@@ -1,4 +1,4 @@
-import Consumer from "../consumers/Consumer";
+import Consumer from '../consumers/Consumer.js';
 
 describe("countConsumptionVolume", () => {
 

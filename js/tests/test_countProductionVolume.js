@@ -1,4 +1,4 @@
-import Source from "../sources/Source";
+import Source from '../sources/Source.js';
 
 describe("countProductionVolume", () => {
 

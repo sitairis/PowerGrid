@@ -1,9 +1,8 @@
-
-import PowerStation from "../sources/PowerStation";
-import SolarPanel from "../sources/SolarPanel";
-import Consumer from "../consumers/Consumer";
-import PowerLine from "../sources/PowerLine";
-import Grid from "../Grid";
+import Grid from '../Grid.js';
+import SolarPanel from '../sources/SolarPanel.js';
+import PowerStation from '../sources/PowerStation.js';
+import PowerLine from '../sources/PowerLine.js';
+import Consumer from '../consumers/Consumer.js';
 
 describe("isProfitable", () => {
 
@@ -85,5 +84,4 @@ describe("isProfitable", () => {
             assert.equal(calc.isProfitable(), false);
         });
     });
-
 });

@@ -1,4 +1,4 @@
-import PowerLine from "../sources/PowerLine";
+import PowerLine from '../sources/PowerLine.js';
 
 describe("countTransportPrice", () => {
 

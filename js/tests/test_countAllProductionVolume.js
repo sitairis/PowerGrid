@@ -1,6 +1,6 @@
-import Grid from "../Grid";
-import SolarPanel from "../sources/SolarPanel";
-import PowerStation from "../sources/PowerStation";
+import Grid from '../Grid.js';
+import SolarPanel from '../sources/SolarPanel.js';
+import PowerStation from '../sources/PowerStation.js';
 
 describe("countAllProductionVolume", () => {
 
