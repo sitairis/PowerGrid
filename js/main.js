@@ -4,6 +4,7 @@ import PowerStation from '../js/sources/PowerStation.js';
 import PowerLine from '../js/sources/PowerLine.js';
 import Grid from '../js/Grid.js';
 
+
 let address1 = 'Минск, ул.Садовая, д.1';
 let countOfFlatsInHouse1 = 100;
 
