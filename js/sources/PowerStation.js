@@ -11,7 +11,9 @@ export default class PowerStation extends Source{
      */
     constructor(name, power, type) {
         super(name, power);
+
         checkStationType(type);
+
         this._type = type;
     }
 
@@ -33,11 +35,13 @@ export default class PowerStation extends Source{
 
     get type() {
         checkStationType(type);
+
         return this._type;
     }
 
     set type(value) {
         checkStationType(type);
+
         this._type = value;
     }
 }

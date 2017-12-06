@@ -42,7 +42,7 @@ export function isRightTypeOfPowerStation(value) {
  * @param value
  * @returns {boolean}
  */
-export function isRightPowerOfStation(value){
+export function isRightPowerOfStation(value) {
     return isNumber(value) && value >= 1 && value <= 100;
 }
 
@@ -52,7 +52,7 @@ export function isRightPowerOfStation(value){
  * @param value
  * @returns {boolean}
  */
-export function isRightPowerOfSolarPanel(value){
+export function isRightPowerOfSolarPanel(value) {
     return isNumber(value) && value >= 1 && value <= 5;
 }
 
@@ -62,7 +62,7 @@ export function isRightPowerOfSolarPanel(value){
  * @param value
  * @returns {boolean}
  */
-export function isRightCountOfFlats(value){
+export function isRightCountOfFlats(value) {
     return isNumber(value) && value >= 1 && value <= 400;
 }
 

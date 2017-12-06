@@ -33,16 +33,19 @@ export default class PowerLine extends Source{
      */
     countTransportPrice(hours) {
         checkPeriod(hours);
+
         return super.countProductionVolume(hours) * this.priceKVt;
     }
 
     get priceKVt() {
         checkPrice(this._priceKVt);
+
         return this._priceKVt;
     }
 
     set priceKVt(value) {
         checkPrice(value);
+
         this._priceKVt = Number.parseFloat(value);
     }
 

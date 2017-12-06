@@ -12,7 +12,9 @@ export default class SolarPanel extends Source{
      */
     constructor(name, power, type) {
         super(name, power);
+
         checkStationType(type);
+
         this._type = type;
     }
 
@@ -36,17 +38,21 @@ export default class SolarPanel extends Source{
      */
     countProductionVolume(hours) {
         checkPeriod(hours);
+
         let workingHours = hours/2;
+
         return super.countProductionVolume(workingHours);
     }
 
     get type() {
         checkPanelType(this._type);
+
         return this._type;
     }
 
     set type(value) {
         checkPanelType(value);
+
         this._type = value;
     }
 }

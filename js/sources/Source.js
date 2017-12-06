@@ -8,9 +8,10 @@ export default class Source {
      * @param name
      * @param power
      */
-    constructor(name, power,) {
+    constructor(name, power) {
         checkPower(power);
         checkNameSource(name);
+
         this._name = name;
         this._power = Number.parseFloat(power);
     }
@@ -31,26 +32,31 @@ export default class Source {
      */
     countProductionVolume(hours) {
         checkPeriod(hours);
+
         return this.power * hours;
     }
 
     get power() {
         checkPower(this._power);
+
         return this._power;
     }
 
     set power(power) {
         checkPower(power);
+
         this._power = Number.parseFloat(power);
     }
 
     get name() {
         checkNameSource(this._name);
+
         return this._name;
     }
 
     set name(name) {
         checkNameSource(name);
+
         this._name = name;
     }
 }
