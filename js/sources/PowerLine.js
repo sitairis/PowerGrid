@@ -1,6 +1,6 @@
 
-import Source from "./Source";
-import {checkPeriod, checkPrice} from "../exceptions";
+import Source from '../sources/Source.js';
+import {checkPeriod, checkPrice} from '../exceptions.js';
 
 export default class PowerLine extends Source{
     /**

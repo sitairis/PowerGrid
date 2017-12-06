@@ -2,9 +2,9 @@
 import {
     checkAddress, checkCountFlats, checkDAILY_CONSUMPTION, checkNIGHT_CONSUMPTION,
     checkPeriod
-} from "../exceptions";
+} from '../exceptions.js';
 
-export default class Consumer{
+export default class Consumer {
     /**
      * Конструктор
      * @param address

@@ -1,8 +1,8 @@
-import Consumer from "./consumers/Consumer";
-import SolarPanel from "./sources/SolarPanel";
-import PowerStation from "./sources/PowerStation";
-import PowerLine from "./sources/PowerLine";
-import Grid from "./Grid";
+import Consumer from '../js/consumers/Consumer.js';
+import SolarPanel from '../js/sources/SolarPanel.js';
+import PowerStation from '../js/sources/PowerStation.js';
+import PowerLine from '../js/sources/PowerLine.js';
+import Grid from '../js/Grid.js';
 
 let address1 = 'Минск, ул.Садовая, д.1';
 let countOfFlatsInHouse1 = 100;

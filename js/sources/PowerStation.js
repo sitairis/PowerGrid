@@ -1,6 +1,5 @@
-import Source from "./Source";
-import {isRightPowerOfStation, isRightTypeOfPowerStation} from "../utils";
-import {checkStationType} from "../exceptions";
+import Source from '../sources/Source.js';
+import {checkStationType} from '../exceptions.js';
 
 export default class PowerStation extends Source{
     /**

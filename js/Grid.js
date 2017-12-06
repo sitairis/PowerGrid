@@ -1,12 +1,12 @@
 
-import {toHour} from "./utils";
+import {toHour} from '../js/utils.js';
 
 import {
     checkConsumer,
     checkConsumers,
     checkPeriod, checkPower, checkPowerLine, checkPowerLines, checkPowerStation, checkPowerStations,
     checkPrice, checkSolarPanel, checkSolarPanels
-} from "./exceptions";
+} from '../js/exceptions.js';
 
 export default class Grid {
     /**

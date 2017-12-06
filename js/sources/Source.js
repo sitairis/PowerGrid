@@ -1,6 +1,5 @@
 
-import {isNumber, isString, isRightPeriod} from "../utils";
-import {checkNameSource, checkPeriod, checkPower} from "../exceptions";
+import {checkNameSource, checkPeriod, checkPower} from '../exceptions.js';
 
 export default class Source {
     /**

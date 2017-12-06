@@ -1,7 +1,6 @@
 
-import Source from "./Source";
-import {isRightPowerOfSolarPanel, isString} from "../utils";
-import {checkPanelType, checkPeriod, checkStationType} from "../exceptions";
+import Source from '../sources/Source.js';
+import {checkPanelType, checkPeriod, checkStationType} from '../exceptions.js';
 
 export default class SolarPanel extends Source{
     /**
