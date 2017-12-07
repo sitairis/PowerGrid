@@ -8,7 +8,7 @@ import {
     checkPrice, checkSolarPanel, checkSolarPanels
 } from '../js/exceptions.js';
 
-export default class Grid {
+class Grid {
     /**
      * Конструктор
      * @param price
@@ -206,3 +206,5 @@ ${this.getPowerReport()}
         this._importPower = value;
     }
 }
+
+exports.grid = Grid;

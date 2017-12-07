@@ -1,8 +1,8 @@
-import Consumer from '../js/consumers/Consumer.js';
-import SolarPanel from '../js/sources/SolarPanel.js';
-import PowerStation from '../js/sources/PowerStation.js';
-import PowerLine from '../js/sources/PowerLine.js';
-import Grid from '../js/Grid.js';
+let Consumer = require('../js/consumers/Consumer.js');
+let SolarPanel = require('../js/sources/SolarPanel.js');
+let PowerStation = require('../js/sources/PowerStation.js');
+let PowerLine = require('../js/sources/PowerLine.js');
+let Grid = require('../js/Grid.js');
 
 
 let address1 = 'Минск, ул.Садовая, д.1';
