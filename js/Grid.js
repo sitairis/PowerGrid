@@ -201,5 +201,3 @@ ${this.getPowerReport()}
 }
 
 module.exports = Grid;
-
-console.log('OKAY! Grid.js=)');

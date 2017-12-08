@@ -77,5 +77,3 @@ exports.isRightCountOfFlats = function(value) {
 exports.isRightPeriod = function(value) {
     return isNumber(value) && value >=30 && value <= 2000;
 };
-
-console.log('OKAY! utils.js=)');

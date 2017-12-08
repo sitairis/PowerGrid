@@ -66,7 +66,6 @@ exports.checkPowerPanel = function (power) {
     }
 };
 
-
 exports.checkPrice = function(price) {
 
     if (!utils.isNumber(price)) {
@@ -174,5 +173,3 @@ exports.checkConsumer = function(consumer) {
         throw new Error (`Неправильно добавили потребителя`);
     }
 };
-
-console.log('OKAY! exceptions.js=)');

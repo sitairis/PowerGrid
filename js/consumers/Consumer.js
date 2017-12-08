@@ -82,4 +82,3 @@ class Consumer {
 }
 
 module.exports = Consumer;
-console.log('OKAY! Consumer.js=)');

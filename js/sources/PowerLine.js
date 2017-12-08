@@ -55,4 +55,3 @@ class PowerLine extends Source{
 
 
 module.exports = PowerLine;
-console.log('OKAY! PowerLine.js=)');

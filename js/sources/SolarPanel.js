@@ -55,5 +55,4 @@ class SolarPanel extends Source{
     }
 }
 
-console.log('OKAY! SolarPanel.js=)');
 module.exports = SolarPanel;

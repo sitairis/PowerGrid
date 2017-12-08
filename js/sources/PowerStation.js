@@ -57,4 +57,3 @@ class PowerStation extends Source{
 }
 
 module.exports = PowerStation;
-console.log('OKAY! PowerStation.js=)');

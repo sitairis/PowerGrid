@@ -59,7 +59,6 @@ class Source {
     }
 }
 
-console.log('OKAY! Source.js=)');
 module.exports = Source;
 
 
