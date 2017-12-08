@@ -3,16 +3,16 @@
  * @param days
  * @returns {number}
  */
-export function toHour(days) {
+ exports.toHour = function(days) {
     return days * 24;
-}
+};
 
 /**
  * Проверка на String
  * @param value
  * @returns {boolean}
  */
-export function isString(value) {
+function isString(value) {
     return typeof value === 'string';
 }
 
@@ -21,20 +21,22 @@ export function isString(value) {
  * @param value
  * @returns {boolean}
  */
-export function isNumber(value) {
+function isNumber(value) {
     return typeof value === 'number';
 }
 
+exports.isNumber = isNumber;
+exports.isString = isString;
 /**
  * Проверка на правильность введенного типа электростанции
  * @param value
  * @returns {boolean}
  */
-export function isRightTypeOfPowerStation(value) {
+exports.isRightTypeOfPowerStation = function(value) {
     let types = ['гидро', 'тепло', 'атомная'];
 
     return isString(value) && types.includes(value);
-}
+};
 
 /**
  * Проверка на правильность введенной мощности электростанции
@@ -42,9 +44,9 @@ export function isRightTypeOfPowerStation(value) {
  * @param value
  * @returns {boolean}
  */
-export function isRightPowerOfStation(value) {
+exports.isRightPowerOfStation = function(value) {
     return isNumber(value) && value >= 1 && value <= 100;
-}
+};
 
 /**
  * Проверка на правильность введенной мощности солнечной батареии.
@@ -52,9 +54,9 @@ export function isRightPowerOfStation(value) {
  * @param value
  * @returns {boolean}
  */
-export function isRightPowerOfSolarPanel(value) {
+exports.isRightPowerOfSolarPanel = function(value) {
     return isNumber(value) && value >= 1 && value <= 5;
-}
+};
 
 /**
  * Проверка на правильность введенного количества квартир в доме
@@ -62,9 +64,9 @@ export function isRightPowerOfSolarPanel(value) {
  * @param value
  * @returns {boolean}
  */
-export function isRightCountOfFlats(value) {
+exports.isRightCountOfFlats = function(value) {
     return isNumber(value) && value >= 1 && value <= 400;
-}
+};
 
 /**
  * Проверка на правильность введенного для отчета периода
@@ -72,6 +74,8 @@ export function isRightCountOfFlats(value) {
  * @param value
  * @returns {boolean}
  */
-export function isRightPeriod(value) {
+exports.isRightPeriod = function(value) {
     return isNumber(value) && value >=30 && value <= 2000;
-}
+};
+
+console.log('OKAY! utils.js=)');

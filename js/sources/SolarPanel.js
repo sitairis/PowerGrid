@@ -1,8 +1,7 @@
+let Source = require('./Source');
+let ExCheck = require('../exceptions');
 
-import Source from '../sources/Source.js';
-import {checkPanelType, checkPeriod, checkStationType} from '../exceptions.js';
-
-export default class SolarPanel extends Source{
+class SolarPanel extends Source{
     /**
      * Конструктор
      * @param name
@@ -11,8 +10,8 @@ export default class SolarPanel extends Source{
      */
     constructor(name, power, type) {
         super(name, power);
-
-        checkStationType(type);
+        ExCheck.checkPowerPanel(power);
+        ExCheck.checkPanelType(type);
 
         this._type = type;
     }
@@ -36,7 +35,7 @@ export default class SolarPanel extends Source{
      * @returns {number}
      */
     countProductionVolume(hours) {
-        checkPeriod(hours);
+        ExCheck.checkPeriod(hours);
 
         let workingHours = hours/2;
 
@@ -44,14 +43,17 @@ export default class SolarPanel extends Source{
     }
 
     get type() {
-        checkPanelType(this._type);
+        ExCheck.checkPanelType(this._type);
 
         return this._type;
     }
 
     set type(value) {
-        checkPanelType(value);
+        ExCheck.checkPanelType(value);
 
         this._type = value;
     }
 }
+
+console.log('OKAY! SolarPanel.js=)');
+module.exports = SolarPanel;

@@ -1,18 +1,14 @@
+let ExCheck = require('../exceptions');
 
-import {
-    checkAddress, checkCountFlats, checkDAILY_CONSUMPTION, checkNIGHT_CONSUMPTION,
-    checkPeriod
-} from '../exceptions.js';
-
-export default class Consumer {
+class Consumer {
     /**
      * Конструктор
      * @param address
      * @param countFlats
      */
     constructor(address, countFlats) {
-        checkAddress(address);
-        checkCountFlats(countFlats);
+        ExCheck.checkAddress(address);
+        ExCheck.checkCountFlats(countFlats);
 
         this._address = address;
         this._countFlats = countFlats;
@@ -42,45 +38,48 @@ export default class Consumer {
      * @returns {number}
      */
     countConsumptionVolume(hours) {
-        checkPeriod(hours);
+        ExCheck.checkPeriod(hours);
 
         return this.countOfFlats * (this.DAILY_CONSUMPTION/24 + this.NIGHT_CONSUMPTION/24) * hours;
     }
 
     get address() {
-        checkAddress(this._address);
+        ExCheck.checkAddress(this._address);
 
         return this._address;
     }
 
     set address(value) {
-        checkAddress(value);
+        ExCheck.checkAddress(value);
 
         this._address = value;
     }
 
     get countOfFlats() {
-        checkCountFlats(this._countFlats);
+        ExCheck.checkCountFlats(this._countFlats);
 
         return this._countFlats;
     }
 
     set countOfFlats(value) {
-        checkCountFlats(value);
+        ExCheck.checkCountFlats(value);
 
         this._countFlats = value;
     }
 
 
     get DAILY_CONSUMPTION() {
-        checkDAILY_CONSUMPTION(this._DAILY_CONSUMPTION);
+        ExCheck.checkDAILY_CONSUMPTION(this._DAILY_CONSUMPTION);
 
         return this._DAILY_CONSUMPTION;
     }
 
     get NIGHT_CONSUMPTION() {
-        checkNIGHT_CONSUMPTION(this._NIGHT_CONSUMPTION);
+        ExCheck.checkNIGHT_CONSUMPTION(this._NIGHT_CONSUMPTION);
 
         return this._NIGHT_CONSUMPTION;
     }
 }
+
+module.exports = Consumer;
+console.log('OKAY! Consumer.js=)');

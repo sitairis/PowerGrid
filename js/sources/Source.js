@@ -1,15 +1,14 @@
+let ExCheck = require('../exceptions');
 
-import {checkNameSource, checkPeriod, checkPower} from '../exceptions.js';
-
-export default class Source {
+class Source {
     /**
      * Конструктор
      * @param name
      * @param power
      */
     constructor(name, power) {
-        checkPower(power);
-        checkNameSource(name);
+        ExCheck.checkPower(power);
+        ExCheck.checkNameSource(name);
 
         this._name = name;
         this._power = Number.parseFloat(power);
@@ -30,33 +29,37 @@ export default class Source {
      * @returns {number}
      */
     countProductionVolume(hours) {
-        checkPeriod(hours);
+        ExCheck.checkPeriod(hours);
 
         return this.power * hours;
     }
 
     get power() {
-        checkPower(this._power);
+        ExCheck.checkPower(this._power);
 
         return this._power;
     }
 
     set power(power) {
-        checkPower(power);
+        ExCheck.checkPower(power);
 
         this._power = Number.parseFloat(power);
     }
 
     get name() {
-        checkNameSource(this._name);
+        ExCheck.checkNameSource(this._name);
 
         return this._name;
     }
 
     set name(name) {
-        checkNameSource(name);
+        ExCheck.checkNameSource(name);
 
         this._name = name;
     }
 }
+
+console.log('OKAY! Source.js=)');
+module.exports = Source;
+
 

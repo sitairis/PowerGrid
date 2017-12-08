@@ -1,12 +1,5 @@
-
-import {toHour} from '../js/utils.js';
-
-import {
-    checkConsumer,
-    checkConsumers,
-    checkPeriod, checkPower, checkPowerLine, checkPowerLines, checkPowerStation, checkPowerStations,
-    checkPrice, checkSolarPanel, checkSolarPanels
-} from '../js/exceptions.js';
+let utils = require('./utils');
+let ExCheck = require('./exceptions');
 
 class Grid {
     /**
@@ -15,17 +8,17 @@ class Grid {
      * @param period
      */
     constructor(price, period) {
-        checkPeriod(period);
-        checkPrice(price);
+        ExCheck.checkPeriod(period);
+        ExCheck.checkPrice(price);
 
         this._marketPrice = price;
-        this._period = toHour(Math.round(period));
+        this._period = utils.toHour(Math.round(period));
         this._powerStations = [];
         this._solarPanels = [];
         this._powerLines = [];
         this._consumers = [];
-        this._exportPower = 0;
-        this._importPower = 0;
+        this._exportPower = 1;
+        this._importPower = 1;
     }
 
     /**
@@ -35,14 +28,14 @@ class Grid {
      */
     getPowerReport() {
 
-        let volumeOfConsumption = this.consumers.reduce((totalSum, currentElement) => totalSum + currentElement.countConsumptionVolume(this.period), 0);
+        let consumptionVolume = this.consumers.reduce((totalSum, currentElement) => totalSum + currentElement.countConsumptionVolume(this.period), 0);
 
         let produce = this.countAllProductionVolume();
 
-         (volumeOfConsumption >= produce) ? this.importPower = volumeOfConsumption - produce:this.exportPower = produce - volumeOfConsumption;
+         (consumptionVolume > produce) ? this.importPower = consumptionVolume - produce : this.exportPower = produce - consumptionVolume;
 
         return `Количество произведенной энергии (КВт): ${produce.toFixed(2)}
-Количество потребленной энергии (КВт): ${volumeOfConsumption}
+Количество потребленной энергии (КВт): ${consumptionVolume}
 Энергия на экспорт (КВт): ${this.exportPower}
 Энергия на импорт (КВт): ${this.importPower}`
     }
@@ -111,100 +104,102 @@ ${this.getPowerReport()}
     }
 
     get powerLines() {
-        checkPowerLines(this._powerLines);
+        ExCheck.checkPowerLines(this._powerLines);
 
         return this._powerLines;
     }
 
     set powerLines(value) {
-        checkPowerLine(value);
+        ExCheck.checkPowerLine(value);
 
         this._powerLines.push(value);
     }
 
     get period() {
-        checkPeriod(this._period);
+        ExCheck.checkPeriod(this._period);
 
         return this._period;
     }
 
     set period(value) {
-        checkPeriod(value);
+        ExCheck.checkPeriod(value);
 
         this._period = toHour(value);
     }
 
     get powerStations() {
-        checkPowerStations(this._powerStations);
+        ExCheck.checkPowerStations(this._powerStations);
 
         return this._powerStations;
     }
 
     set powerStations(value) {
-        checkPowerStation(value);
+        ExCheck.checkPowerStation(value);
 
         this._powerStations.push(value);
     }
 
     get solarPanels() {
-        checkSolarPanels(this._solarPanels);
+        ExCheck.checkSolarPanels(this._solarPanels);
 
         return this._solarPanels;
     }
 
     set solarPanels(value) {
-        checkSolarPanel(value);
+        ExCheck.checkSolarPanel(value);
 
         this._solarPanels.push(value);
     }
 
     get consumers() {
-        checkConsumers(this._consumers);
+        ExCheck.checkConsumers(this._consumers);
 
         return this._consumers;
     }
 
     set consumers(value) {
-        checkConsumer(value);
+        ExCheck.checkConsumer(value);
 
         this._consumers.push(value);
     }
 
     get marketPrice() {
-        checkPrice(this._marketPrice);
+        ExCheck.checkPrice(this._marketPrice);
 
         return this._marketPrice;
     }
 
     set marketPrice(value) {
-        checkPrice(value);
+        ExCheck.checkPrice(value);
 
         this._marketPrice = value;
     }
 
     get exportPower() {
-        checkPower(this._exportPower);
+        ExCheck.checkPower(this._exportPower);
 
         return this._exportPower;
     }
 
     set exportPower(value) {
-        checkPower(value);
+        ExCheck.checkPower(value);
 
         this._exportPower = value;
     }
 
     get importPower() {
-        checkPower(this._importPower);
+        ExCheck.checkPower(this._importPower);
 
         return this._importPower;
     }
 
     set importPower(value) {
-        checkPower(value);
+        ExCheck.checkPower(value);
 
         this._importPower = value;
     }
 }
 
-exports.grid = Grid;
+module.exports = Grid;
+
+console.log('OKAY! Grid.js=)');

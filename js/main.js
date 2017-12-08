@@ -1,8 +1,8 @@
-let Consumer = require('../js/consumers/Consumer.js');
-let SolarPanel = require('../js/sources/SolarPanel.js');
-let PowerStation = require('../js/sources/PowerStation.js');
-let PowerLine = require('../js/sources/PowerLine.js');
-let Grid = require('../js/Grid.js');
+let Grid = require('./Grid');
+let Consumer = require('../js/consumers/Consumer');
+let SolarPanel = require('../js/sources/SolarPanel');
+let PowerStation = require('../js/sources/PowerStation');
+let PowerLine = require('../js/sources/PowerLine');
 
 
 let address1 = 'Минск, ул.Садовая, д.1';
@@ -30,7 +30,7 @@ house4.print();
 
 
 let nameCompany = 'SolarCompany';
-let powerOfSolarPanel = (1000/12).toFixed(2);
+let powerOfSolarPanel = 3;
 let typeOfSolarPanel = 'spT1-1';
 
 let solarPanelT1 = new SolarPanel(nameCompany, powerOfSolarPanel, typeOfSolarPanel);
@@ -39,7 +39,7 @@ solarPanelT1.print();
 
 
 let nameOfPowerPlant = 'Электростанция 1';
-let powerOfPlant = (90000/24).toFixed(2);
+let powerOfPlant = 55;
 let typeOfPlant = 'гидро';
 
 let powerPlant1 = new PowerStation(nameOfPowerPlant, powerOfPlant, typeOfPlant);
@@ -49,7 +49,8 @@ powerPlant1.print();
 let powerGrid1 = new PowerLine('pg1', 220, 0.1188);
 powerGrid1.print();
 
-let grid = new Grid(0.5611, 365);
+let period  = 55;
+let grid = new Grid(0.5611, period);
 
 grid.powerLines = powerGrid1;
 

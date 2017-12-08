@@ -1,7 +1,7 @@
-import Source from '../sources/Source.js';
-import {checkStationType} from '../exceptions.js';
+let Source = require('./Source');
+let ExCheck = require('../exceptions');
 
-export default class PowerStation extends Source{
+class PowerStation extends Source{
     /**
      * Конструктор
      * @param name
@@ -10,8 +10,8 @@ export default class PowerStation extends Source{
      */
     constructor(name, power, type) {
         super(name, power);
-
-        checkStationType(type);
+        ExCheck.checkStationPower(power);
+        ExCheck.checkStationType(type);
 
         this._type = type;
     }
@@ -33,14 +33,28 @@ export default class PowerStation extends Source{
     }
 
     get type() {
-        checkStationType(type);
+        ExCheck.checkStationType(this._type);
 
         return this._type;
     }
 
     set type(value) {
-        checkStationType(type);
+        ExCheck.checkStationType(type);
 
         this._type = value;
     }
+
+
+    get power() {
+        ExCheck.checkPowerStations(this._power);
+        return this._power;
+    }
+
+    set power(value) {
+        ExCheck.checkPowerStations(value);
+        this._power = value;
+    }
 }
+
+module.exports = PowerStation;
+console.log('OKAY! PowerStation.js=)');

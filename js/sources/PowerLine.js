@@ -1,8 +1,7 @@
+let Source = require('./Source');
+let ExCheck = require('../exceptions');
 
-import Source from '../sources/Source.js';
-import {checkPeriod, checkPrice} from '../exceptions.js';
-
-export default class PowerLine extends Source{
+class PowerLine extends Source{
     /**
      * Конструктор
      * @param name
@@ -12,7 +11,7 @@ export default class PowerLine extends Source{
     constructor(name, power, price) {
         super(name, power);
 
-        checkPrice(price);
+        ExCheck.checkPrice(price);
 
         this._priceKVt = Number.parseFloat(price);
     }
@@ -32,19 +31,19 @@ export default class PowerLine extends Source{
      * @returns {number}
      */
     countTransportPrice(hours) {
-        checkPeriod(hours);
+        ExCheck.checkPeriod(hours);
 
         return super.countProductionVolume(hours) * this.priceKVt;
     }
 
     get priceKVt() {
-        checkPrice(this._priceKVt);
+        ExCheck.checkPrice(this._priceKVt);
 
         return this._priceKVt;
     }
 
     set priceKVt(value) {
-        checkPrice(value);
+        ExCheck.checkPrice(value);
 
         this._priceKVt = Number.parseFloat(value);
     }
@@ -53,3 +52,7 @@ export default class PowerLine extends Source{
         console.log(`${this.toString()}`);
     }
 }
+
+
+module.exports = PowerLine;
+console.log('OKAY! PowerLine.js=)');
