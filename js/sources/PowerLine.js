@@ -33,7 +33,7 @@ class PowerLine extends Source{
     countTransportPrice(hours) {
         ExCheck.checkPeriod(hours);
 
-        return super.countProductionVolume(hours) * this.priceKVt;
+        return Math.round(super.countProductionVolume(hours) * this.priceKVt);
     }
 
     get priceKVt() {

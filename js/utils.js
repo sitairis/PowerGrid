@@ -3,7 +3,7 @@
  * @param days
  * @returns {number}
  */
- exports.toHour = function(days) {
+exports.toHour = function(days) {
     return days * 24;
 };
 

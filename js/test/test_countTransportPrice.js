@@ -1,4 +1,5 @@
-import PowerLine from '../sources/PowerLine.js';
+let expect = require("chai").expect;
+let PowerLine = require('../sources/PowerLine');
 
 describe("countTransportPrice", () => {
 
@@ -7,23 +8,23 @@ describe("countTransportPrice", () => {
             testPeriod: 900,
             testPowerLine: 10,
             testLinePrice: 10.21,
-            message: `при подсчете с периодом ${this.testPeriod} ожидаемое значение`
+            expected: 91890,
+            message: `при подсчете ожидаемое значение`
         },
         {
             testPeriod: 36,
             testPowerLine:70,
             testLinePrice: 11.8,
-            message: `при подсчете с периодом ${this.testPeriod} ожидаемое значение`
+            expected: 29736,
+            message: `при подсчете ожидаемое значение`
         }
     ];
 
     equalParams.forEach((param) => {
         let calc = new PowerLine('testName', param.testPowerLine, param.testLinePrice);
 
-        let expected = param.testPowerLine * param.testLinePrice * Math.round(param.testPeriod);
-
-        it(`${param.message} ${expected}`, () => {
-            assert.equal(calc.countTransportPrice(param.testPeriod), expected);
+        it(`${param.message} ${param.expected}`, () => {
+            expect(calc.countTransportPrice(param.testPeriod)).to.equal(param.expected);
         });
     });
 
@@ -32,13 +33,13 @@ describe("countTransportPrice", () => {
             testPeriod: -900,
             testPowerLine: 10,
             testLinePrice: 10.21,
-            message: `при подсчете с периодом ${this.testPeriod} ожидается ошибка`
+            message: `при подсчете с отрицательным периодом ожидается ошибка`
         },
         {
             testPeriod: 'string',
             testPowerLine:70,
             testLinePrice: 11.8,
-            message: `при подсчете с периодом ${this.testPeriod} ожидается ошибка`
+            message: `при подсчете с периодом 'string' ожидается ошибка`
         }
     ];
 
@@ -47,7 +48,7 @@ describe("countTransportPrice", () => {
         let calc = new PowerLine('testName', param.testPowerLine, param.testLinePrice);
 
         it(`${param.message}`, () => {
-            assert.typeOf(calc.countTransportPrice(param.testPeriod), 'error', 'calc.countProductionVolume returns an error');
+            expect(calc.countTransportPrice(param.testPeriod)).to.be.a('error');
         });
     });
 });

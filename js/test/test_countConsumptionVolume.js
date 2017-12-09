@@ -1,16 +1,19 @@
-import Consumer from '../consumers/Consumer.js';
+let expect = require("chai").expect;
+let Consumer = require('../consumers/Consumer');
 
 describe("countConsumptionVolume", () => {
 
     let equalParams = [
         {
-            testPeriod: 900,
+            testPeriod: 90,
             testCountFlats: 350,
+            expected: 157500,
             message: `при подсчете с дробным периодом ${this.testPeriod} ожидаемое значение `
         },
         {
-            testPeriod: 360.7,
+            testPeriod: 36.7,
             testCountFlats: 400,
+            expected: 73400,
             message: `при подсчете с дробным периодом ${this.testPeriod} ожидаемое значение `
         }
     ];
@@ -19,10 +22,9 @@ describe("countConsumptionVolume", () => {
 
         let calc = new Consumer('testAddress', param.testCountFlats);
 
-        let expected = param.testCountFlats * 5/24 * param.testPeriod;
 
-        it(`${param.message} ${expected}`, () => {
-            assert.equal(calc.countConsumptionVolume(param.testPeriod), expected);
+        it(`${param.message} ${param.expected}`, () => {
+            expect(calc.countConsumptionVolume(param.testPeriod)).to.equal(param.expected);
         });
     });
 
@@ -43,7 +45,7 @@ describe("countConsumptionVolume", () => {
         let calc = new Consumer('testAddress', param.testCountFlats);
 
         it(`${param.message}`, () => {
-            assert.typeOf(calc.countConsumptionVolume(param.testPeriod), 'error', 'calc.countConsumptionVolume returns an error');
+            expect(calc.countConsumptionVolume(param.testPeriod)).to.be.a('Error');
         });
     });
 });

@@ -1,31 +1,32 @@
-import Grid from '../Grid.js';
-import SolarPanel from '../sources/SolarPanel.js';
-import PowerStation from '../sources/PowerStation.js';
-import PowerLine from '../sources/PowerLine.js';
-import Consumer from '../consumers/Consumer.js';
+let expect = require("chai").expect;
+let Grid = require('../Grid');
+let Consumer = require('../consumers/Consumer');
+let SolarPanel = require('../sources/SolarPanel');
+let PowerStation = require('../sources/PowerStation');
+let PowerLine = require('../sources/PowerLine');
 
 describe("isProfitable", () => {
 
     let positiveParams = [
         {
-            testPrice: 200,
-            testPeriod: 45,
-            testPowerStation: 55,
-            testPowerPanel: 3,
-            testCountFlats: 200,
+            testPrice: 10,
+            testPeriod: 55,
+            testPowerStation: 95,
+            testPowerPanel: 4,
+            testCountFlats: 10,
             testPowerLine: 220,
-            testLinePrice: 1.21,
+            testLinePrice: 0.21,
             msgTypeOf:`возвращает ли функция boolean`,
             msgEqual: `при проверке на прибыльность ожидаемое значение true`
         },
         {
-            testPrice:180,
-            testPeriod: 36,
-            testPowerStation:35,
-            testPowerPanel:2,
-            testCountFlats: 200,
-            testPowerLine:220,
-            testLinePrice: 1.1,
+            testPrice:15,
+            testPeriod: 72,
+            testPowerStation:86,
+            testPowerPanel:3,
+            testCountFlats: 15,
+            testPowerLine: 36,
+            testLinePrice: 0.51,
             msgTypeOf:`возвращает ли функция boolean`,
             msgEqual: `при проверке на прибыльность ожидаемое значение true`
         }
@@ -36,22 +37,22 @@ describe("isProfitable", () => {
 
         calc.powerStations = new PowerStation(`testPowerStation`, param.testPowerStation, `гидро`);
         calc.solarPanels = new SolarPanel(`testName`, param.testPowerPanel, `type1`);
-        calc.consumers = [new Consumer(`testAddress`, param.testCountFlats)];
+        calc.consumers = new Consumer(`testAddress`, param.testCountFlats);
         calc.powerLines = new PowerLine(`testLine1`, param.testPowerLine, param.testLinePrice);
 
         it(`${param.msgTypeOf}`, () => {
-            assert.typeOf(calc.isProfitable(), `boolean`, `Значение boolean`);
+            expect(calc.isProfitable()).to.be.a(`boolean`);
         });
 
         it(`${param.msgEqual}`, () => {
-            assert.equal(calc.isProfitable(), true);
+            expect(calc.isProfitable()).to.equal(true);
         });
     });
 
     let negativeParams = [
         {
             testPrice: 100,
-            testPeriod: 90,
+            testPeriod: 40,
             testPowerStation: 55,
             testPowerPanel: 3,
             testCountFlats: 350,
@@ -60,14 +61,14 @@ describe("isProfitable", () => {
             message: `при проверке на прибыльность ожидаемое значение false`
         },
         {
-            testPrice:35,
-            testPeriod: 36,
+            testPrice:25,
+            testPeriod: 70,
             testPowerStation:35,
             testPowerPanel:2,
             testCountFlats: 400,
             testPowerLine:70,
             testLinePrice: 11.8,
-            msgEqual: `при проверке на прибыльность ожидаемое значение false`
+            message: `при проверке на прибыльность ожидаемое значение false`
         }
     ];
 
@@ -77,11 +78,11 @@ describe("isProfitable", () => {
 
         calc.powerStations = new PowerStation(`testPowerStation`, param.testPowerStation, `гидро`);
         calc.solarPanels = new SolarPanel(`testName`, param.testPowerPanel, `type1`);
-        calc.consumers = [new Consumer(`testAddress`, param.testCountFlats)];
+        calc.consumers = new Consumer(`testAddress`, param.testCountFlats);
         calc.powerLines = new PowerLine(`testLine1`, param.testPowerLine, param.testLinePrice);
 
         it(`${param.message}`, () => {
-            assert.equal(calc.isProfitable(), false);
+            expect(calc.isProfitable()).to.equal(false);
         });
     });
 });

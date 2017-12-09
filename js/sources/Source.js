@@ -31,7 +31,7 @@ class Source {
     countProductionVolume(hours) {
         ExCheck.checkPeriod(hours);
 
-        return this.power * hours;
+        return Math.round(this.power * hours);
     }
 
     get power() {
@@ -60,5 +60,3 @@ class Source {
 }
 
 module.exports = Source;
-
-

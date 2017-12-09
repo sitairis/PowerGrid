@@ -32,7 +32,7 @@ class Grid {
 
         let produce = this.countAllProductionVolume();
 
-         (consumptionVolume > produce) ? this.importPower = consumptionVolume - produce : this.exportPower = produce - consumptionVolume;
+        (consumptionVolume > produce) ? this.importPower = consumptionVolume - produce : this.exportPower = produce - consumptionVolume;
 
         return `Количество произведенной энергии (КВт): ${produce.toFixed(2)}
 Количество потребленной энергии (КВт): ${consumptionVolume}
@@ -81,7 +81,7 @@ class Grid {
      * @returns {boolean}
      */
     isProfitable() {
-        return !!(this.countIncome() + this.countCosts());
+        return this.countIncome() > this.countCosts();
     }
 
     /**
@@ -124,7 +124,7 @@ ${this.getPowerReport()}
     set period(value) {
         ExCheck.checkPeriod(value);
 
-        this._period = toHour(value);
+        this._period = utils.toHour(value);
     }
 
     get powerStations() {

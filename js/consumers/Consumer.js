@@ -37,10 +37,10 @@ class Consumer {
      * @param hours
      * @returns {number}
      */
-    countConsumptionVolume(hours) {
-        ExCheck.checkPeriod(hours);
+    countConsumptionVolume(period) {
+        ExCheck.checkPeriod(period);
 
-        return this.countOfFlats * (this.DAILY_CONSUMPTION/24 + this.NIGHT_CONSUMPTION/24) * hours;
+        return Math.round(this.countOfFlats * (this.DAILY_CONSUMPTION + this.NIGHT_CONSUMPTION) * period);
     }
 
     get address() {
